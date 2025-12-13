@@ -64,6 +64,22 @@ button {
   border-radius: 10px; /* скругление углов */
 }
 
+@media screen and (min-width: 1024px) {
+  .box {
+    width: 600px;      /* шире блок для ввода и карт */
+    padding: 30px;     /* чуть больше внутреннего отступа */
+  }
+
+  input, button {
+    padding: 16px;     /* больше кнопка и поле ввода */
+    font-size: 18px;   /* увеличиваем шрифт */
+  }
+
+  .card img {
+    max-height: 350px;  /* чуть больше картинки */
+  }
+}
+
 @keyframes fade {
   from { opacity:0; transform: translateY(10px); }
   to { opacity:1; transform: translateY(0); }
