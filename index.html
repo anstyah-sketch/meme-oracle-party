@@ -57,34 +57,35 @@ input, button {
 }
 
 .stars {
-  position: fixed;       /* чтобы всегда на фоне */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: transparent;
-  z-index: 0;           /* чтобы были за блоками */
-  pointer-events: none; /* чтобы не мешали клику */
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-.stars::after {
-  content: "✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦"; /* символы звёздочек */
+.stars::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  font-size: 20px;
-  color: #fff;
-  opacity: 0.6;
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow: 
+    10px 20px white, 50px 80px white, 120px 40px white, 200px 150px white,
+    250px 30px white, 300px 90px white, 350px 200px white, 400px 50px white,
+    450px 120px white, 500px 70px white, 550px 160px white, 600px 20px white,
+    650px 180px white, 700px 100px white, 750px 200px white, 800px 60px white;
   animation: twinkle 3s infinite alternate;
-  white-space: pre-wrap; /* чтобы звёзды распределились */
 }
 
 @keyframes twinkle {
-  0% { opacity: 0.2; transform: translate(0,0); }
-  50% { opacity: 0.6; transform: translate(10px,5px); }
-  100% { opacity: 1; transform: translate(-10px,-5px); }
+  0% { opacity: 0.2; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
 }
 
 button {
@@ -113,9 +114,14 @@ button {
     padding: 30px;     /* чуть больше внутреннего отступа */
   }
 
-  .box {
-  position: relative;  /* важно для работы z-index */
-  z-index: 1;          /* ставим блок поверх звёзд */
+.box {
+  position: relative;
+  z-index: 1;  /* поверх звёзд */
+  background: rgba(0,0,0,0.75);
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  margin: 50px auto;
 }
 
   input, button {
