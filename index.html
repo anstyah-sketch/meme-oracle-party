@@ -16,6 +16,15 @@ body {
   min-height: 100vh;
 }
 
+  #out {
+  display: flex;                 /* выстраиваем карты в ряд */
+  justify-content: space-between; /* равные отступы между картами */
+  flex-wrap: nowrap;             /* не переносим на следующую строку */
+  gap: 10px;                     /* расстояние между картами */
+  margin-top: 15px;
+  overflow-x: auto;              /* если экран маленький, появляется прокрутка */
+}
+
 .box {
   width: 380px;
   background: rgba(0,0,0,0.75);
@@ -42,16 +51,17 @@ button {
 }
 
 .card {
-  margin-top: 18px;
-  padding-top: 12px;
-  border-top: 1px dashed rgba(255,255,255,0.3);
-  animation: fade 0.5s ease;
+  flex: 1 1 30%;     /* каждая карта занимает примерно 30% ширины */
+  border-top: none;  /* убираем верхнюю границу */
+  padding-top: 0;
 }
 
 .card img {
   width: 100%;
-  border-radius: 12px;
-  margin-top: 6px;
+  height: auto;
+  max-height: 250px;  /* фиксированная высота */
+  object-fit: cover;   /* картинка пропорционально вписывается */
+  border-radius: 10px; /* скругление углов */
 }
 
 @keyframes fade {
