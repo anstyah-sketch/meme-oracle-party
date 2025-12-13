@@ -9,18 +9,19 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background: #111;
+  background: linear-gradient(180deg, #110022, #330044);
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Контейнер для ввода */
 .box {
-  position: relative; /* для z-index */
-  z-index: 1; /* поверх звёзд */
+  position: relative;
+  z-index: 1;
   background: rgba(0,0,0,0.75);
   padding: 20px;
   border-radius: 10px;
@@ -29,8 +30,8 @@ body {
   text-align: center;
 }
 
-/* Поле ввода и кнопка */
-input, button {
+/* Поле ввода */
+input {
   padding: 12px;
   font-size: 16px;
   margin: 5px 0;
@@ -39,7 +40,26 @@ input, button {
   border: none;
 }
 
-/* Горизонтальное расположение карт */
+/* Кнопка СПРОСИТЬ */
+button {
+  padding: 12px;
+  font-size: 16px;
+  margin: 5px 0;
+  width: 80%;
+  border-radius: 5px;
+  border: none;
+  background: #9b59b6;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: #b066ff;
+}
+
+/* Горизонтальные карты */
 #out {
   display: flex;
   justify-content: space-between;
@@ -68,7 +88,7 @@ input, button {
   border-radius: 10px;
 }
 
-/* Текст расшифровки (появляется при наведении) */
+/* Текст предсказания, появляется при наведении */
 .prediction {
   font-size: 14px;
   margin-top: 6px;
@@ -81,24 +101,22 @@ input, button {
   opacity: 1;
 }
 
-/* Кнопка и поле ввода больше на ПК */
+/* Увеличение для ПК */
 @media screen and (min-width: 1024px) {
   .box {
     width: 600px;
     padding: 30px;
   }
-
   input, button {
     padding: 16px;
     font-size: 18px;
   }
-
   .card img {
     max-height: 350px;
   }
 }
 
-/* Звёздное небо */
+/* Звёзды на фоне */
 .stars {
   position: fixed;
   top: 0;
@@ -111,18 +129,10 @@ input, button {
   overflow: hidden;
 }
 
-.stars::before {
-  content: "";
+.star {
   position: absolute;
-  width: 2px;
-  height: 2px;
   background: white;
-  box-shadow:
-    10px 20px white, 50px 80px white, 120px 40px white, 200px 150px white,
-    250px 30px white, 300px 90px white, 350px 200px white, 400px 50px white,
-    450px 120px white, 500px 70px white, 550px 160px white, 600px 20px white,
-    650px 180px white, 700px 100px white, 750px 200px white, 800px 60px white,
-    850px 140px white, 900px 30px white, 950px 190px white, 1000px 80px white;
+  border-radius: 50%;
   animation: twinkle 3s infinite alternate;
 }
 
@@ -146,29 +156,44 @@ input, button {
 </div>
 
 <script>
+// Генерация звёзд по всему экрану
+const starsContainer = document.querySelector('.stars');
+for(let i=0;i<50;i++){
+  const star = document.createElement('div');
+  star.className = 'star';
+  const size = Math.random()*2+1;
+  star.style.width = size + 'px';
+  star.style.height = size + 'px';
+  star.style.top = Math.random()*100 + 'vh';
+  star.style.left = Math.random()*100 + 'vw';
+  star.style.animationDuration = (Math.random()*3+2)+'s';
+  starsContainer.appendChild(star);
+}
+
+// Карты-мемы
 const cards = [
-  {n:"This Is Fine",i:"https://i.imgflip.com/1bij.jpg",t:"Всё горит, но ты пока держишь лицо."},
-  {n:"Distracted Boyfriend",i:"https://i.imgflip.com/1ur9b0.jpg",t:"Ты смотришь не туда. И это очевидно всем, кроме тебя."},
-  {n:"Surprised Pikachu",i:"https://i.imgflip.com/30b1gx.jpg",t:"Ну да. А чего ты ожидал?"},
-  {n:"Success Kid",i:"https://i.imgflip.com/1bhk.jpg",t:"Маленькая победа. Заслуженно."},
-  {n:"Hide the Pain Harold",i:"https://i.imgflip.com/gk5el.jpg",t:"Ты улыбаешься, но внутри всё понятно."},
-  {n:"Woman Yelling at Cat",i:"https://i.imgflip.com/345v97.jpg",t:"Конфликт надуман. Но шуму будет много."},
-  {n:"Drake Hotline Bling",i:"https://i.imgflip.com/30b1gx.jpg",t:"Один вариант — мимо. Второй — очевидный."},
-  {n:"Two Buttons",i:"https://i.imgflip.com/1g8my4.jpg",t:"Выбор неприятный. Но делать его всё равно придётся."},
-  {n:"Change My Mind",i:"https://i.imgflip.com/24y43o.jpg",t:"Ты уверен(а). И спорить с тобой бесполезно."},
-  {n:"Mocking SpongeBob",i:"https://i.imgflip.com/1otk96.jpg",t:"Кто-то явно не воспринимает ситуацию всерьёз."},
-  {n:"Expanding Brain",i:"https://i.imgflip.com/1jwhww.jpg",t:"Мысль развивается. Не всегда в лучшую сторону."},
-  {n:"Disaster Girl",i:"https://i.imgflip.com/23ls.jpg",t:"Ты наблюдаешь хаос. И да, ты к нему причастен(на)."},
-  {n:"Sad Pablo Escobar",i:"https://i.imgflip.com/1c1uej.jpg",t:"Ожидание затянулось. Терпение на исходе."},
-  {n:"Is This a Pigeon?",i:"https://i.imgflip.com/1o00in.jpg",t:"Ты что-то путаешь. Но очень уверенно."},
-  {n:"Leonardo DiCaprio Cheers",i:"https://i.imgflip.com/3x5i.jpg",t:"За это стоит выпить. Даже если повод сомнительный."},
-  {n:"Ancient Aliens",i:"https://i.imgflip.com/26am.jpg",t:"Логики нет. Но звучит убедительно."},
-  {n:"Grumpy Cat",i:"https://i.imgflip.com/8p0a.jpg",t:"Тебе это не нравится. И это нормально."},
-  {n:"Bad Luck Brian",i:"https://i.imgflip.com/1bip.jpg",t:"Идея была хорошая. Исполнение — нет."},
-  {n:"Doge",i:"https://i.imgflip.com/4t0m5.jpg",t:"Сомнительно. Но весело."},
-  {n:"Boardroom Meeting",i:"https://i.imgflip.com/m78d.jpg",t:"Это решение продавят. Хочешь ты того или нет."}
+  {i:"https://i.imgflip.com/1bij.jpg",t:"Всё горит, но ты пока держишь лицо."},
+  {i:"https://i.imgflip.com/1ur9b0.jpg",t:"Ты смотришь не туда. И это очевидно всем, кроме тебя."},
+  {i:"https://i.imgflip.com/30b1gx.jpg",t:"Ну да. А чего ты ожидал?"},
+  {i:"https://i.imgflip.com/1bhk.jpg",t:"Маленькая победа. Заслуженно."},
+  {i:"https://i.imgflip.com/gk5el.jpg",t:"Ты улыбаешься, но внутри всё понятно."},
+  {i:"https://i.imgflip.com/345v97.jpg",t:"Конфликт надуман. Но шуму будет много."},
+  {i:"https://i.imgflip.com/1g8my4.jpg",t:"Выбор неприятный. Но делать его всё равно придётся."},
+  {i:"https://i.imgflip.com/24y43o.jpg",t:"Ты уверен(а). И спорить с тобой бесполезно."},
+  {i:"https://i.imgflip.com/1otk96.jpg",t:"Кто-то явно не воспринимает ситуацию всерьёз."},
+  {i:"https://i.imgflip.com/1jwhww.jpg",t:"Мысль развивается. Не всегда в лучшую сторону."},
+  {i:"https://i.imgflip.com/23ls.jpg",t:"Ты наблюдаешь хаос. И да, ты к нему причастен(на)."},
+  {i:"https://i.imgflip.com/1c1uej.jpg",t:"Ожидание затянулось. Терпение на исходе."},
+  {i:"https://i.imgflip.com/1o00in.jpg",t:"Ты что-то путаешь. Но очень уверенно."},
+  {i:"https://i.imgflip.com/3x5i.jpg",t:"За это стоит выпить. Даже если повод сомнительный."},
+  {i:"https://i.imgflip.com/26am.jpg",t:"Логики нет. Но звучит убедительно."},
+  {i:"https://i.imgflip.com/8p0a.jpg",t:"Тебе это не нравится. И это нормально."},
+  {i:"https://i.imgflip.com/1bip.jpg",t:"Идея была хорошая. Исполнение — нет."},
+  {i:"https://i.imgflip.com/4t0m5.jpg",t:"Сомнительно. Но весело."},
+  {i:"https://i.imgflip.com/m78d.jpg",t:"Это решение продавят. Хочешь ты того или нет."}
 ];
 
+// Функция предсказания
 function oracle(){
   const q = document.getElementById("q").value.trim();
   if(!q) return alert("Введите вопрос!");
