@@ -128,7 +128,7 @@
 
 button {
   display: block;
-  margin: 20px auto 20px auto; /* ↓ ВАЖНО */
+  margin: 20px auto 0px auto; /* ↓ ВАЖНО */
   padding: 12px 30px;
   font-size: 20px;
   background: #9b30ff;
@@ -150,10 +150,10 @@ button {
 </head>
 <body>
 
-  <h1>🔮 Меморакул</h1>
+<h1><span class="magic">🔮</span> МемОракул</h1>
 <input type="text" id="question" placeholder="Напиши свой вопрос здесь">
 <div id="out"></div>
-<button onclick="oracle()">СПРОСИТЬ</button>
+<button onclick="oracle()">Спросить</button>
 
 <script>
   // Генерация звёзд
