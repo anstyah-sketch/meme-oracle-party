@@ -163,13 +163,13 @@ button {
 
 <h1><span class="magic">🔮</span> МемОракул</h1>
 <input type="text" id="question" placeholder="Напиши свой вопрос здесь">
-<button onclick="oracle()">СПРОСИТЬ</button>
+<button onclick="oracle()">Спросить</button>
 <div id="out"></div>
 
 
 <script>
   // Генерация звёзд
-  const numStars = 150;
+  const numStars = 200;
   for(let i=0; i<numStars; i++){
     const star = document.createElement('div');
     star.className = 'star';
@@ -190,13 +190,6 @@ const cards = [
     {i:"https://i.postimg.cc/T1W0Nk97/mem11.jpg", t:"Ты встретишь мем, который изменит твоё настроение"},
     {i:"https://i.postimg.cc/G9wQWk7v/mem13.gif", t:"Не все коты любят рыбу — это важно помнить"}
 ];
-
-  function oracle(){
-    const question = document.getElementById("question").value;
-    if(!question){
-      alert("Сначала напиши вопрос!");
-      return;
-    }
 
     const out = document.getElementById("out");
     out.innerHTML = `<div class="question-text">Вопрос: "${question}"</div>`;
