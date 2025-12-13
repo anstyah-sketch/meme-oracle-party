@@ -2,198 +2,174 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Мем-Оракул</title>
+<title>Меморакул</title>
 <style>
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(180deg, #110022, #330044);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Контейнер для ввода */
-.box {
-  position: relative;
-  z-index: 1;
-  background: rgba(0,0,0,0.75);
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  margin: 50px auto;
-  text-align: center;
-}
-
-/* Поле ввода */
-input {
-  padding: 12px;
-  font-size: 16px;
-  margin: 5px 0;
-  width: 80%;
-  border-radius: 5px;
-  border: none;
-}
-
-/* Кнопка СПРОСИТЬ */
-button {
-  padding: 12px;
-  font-size: 16px;
-  margin: 5px 0;
-  width: 80%;
-  border-radius: 5px;
-  border: none;
-  background: #9b59b6;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-
-button:hover {
-  transform: scale(1.05);
-  background: #b066ff;
-}
-
-/* Горизонтальные карты */
-#out {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  gap: 10px;
-  margin-top: 15px;
-  overflow-x: auto;
-  z-index: 1;
-  position: relative;
-}
-
-/* Каждая карта */
-.card {
-  flex: 1 1 30%;
-  border-top: none;
-  padding-top: 0;
-  text-align: center;
-}
-
-/* Картинка в карте */
-.card img {
-  width: 100%;
-  height: auto;
-  max-height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-/* Текст предсказания, появляется при наведении */
-.prediction {
-  font-size: 14px;
-  margin-top: 6px;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-.card:hover .prediction {
-  opacity: 1;
-}
-
-/* Увеличение для ПК */
-@media screen and (min-width: 1024px) {
-  .box {
-    width: 600px;
-    padding: 30px;
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #1a001a, #330033);
+    overflow-x: hidden;
+    font-family: sans-serif;
+    color: #fff;
   }
-  input, button {
-    padding: 16px;
-    font-size: 18px;
+
+  /* Мерцающие звёзды */
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 2s infinite alternate;
   }
-  .card img {
-    max-height: 350px;
+
+  @keyframes twinkle {
+    0% { opacity: 0.2; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1.2); }
   }
-}
 
-/* Звёзды на фоне */
-.stars {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
+  #out {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
 
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  animation: twinkle 3s infinite alternate;
-}
+  .card {
+    width: 250px;
+    perspective: 1000px;
+    display: inline-block;
+  }
 
-@keyframes twinkle {
-  0% { opacity: 0.2; }
-  50% { opacity: 0.6; }
-  100% { opacity: 1; }
-}
+  .card-inner {
+    position: relative;
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: transform 2s;
+  }
+
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+  }
+
+  .card-front {
+    background: #8a2be2;
+    height: 350px;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    height: 350px;
+    text-align: center;
+  }
+
+  .card-back img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  .prediction {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    width: 90%;
+    left: 5%;
+    background: rgba(0,0,0,0.6);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .card-back:hover .prediction {
+    display: block;
+  }
+
+  button {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 30px;
+    font-size: 20px;
+    background: #9b30ff;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+  }
 </style>
 </head>
 <body>
 
-<div class="stars"></div>
-
-<div class="box">
-  <h1>🔮 Мем-Оракул</h1>
-  <input type="text" id="q" placeholder="Задай вопрос">
-  <br>
-  <button onclick="oracle()">СПРОСИТЬ</button>
-  <div id="out"></div>
-</div>
+<div id="out"></div>
+<button onclick="oracle()">СПРОСИТЬ</button>
 
 <script>
-// Генерация звёзд по всему экрану
-const starsContainer = document.querySelector('.stars');
-for(let i=0;i<50;i++){
-  const star = document.createElement('div');
-  star.className = 'star';
-  const size = Math.random()*2+1;
-  star.style.width = size + 'px';
-  star.style.height = size + 'px';
-  star.style.top = Math.random()*100 + 'vh';
-  star.style.left = Math.random()*100 + 'vw';
-  star.style.animationDuration = (Math.random()*3+2)+'s';
-  starsContainer.appendChild(star);
-}
+  // Генерация звёзд
+  const numStars = 100;
+  for(let i=0; i<numStars; i++){
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 3 + 1;
+    star.style.width = star.style.height = size + 'px';
+    star.style.top = Math.random() * window.innerHeight + 'px';
+    star.style.left = Math.random() * window.innerWidth + 'px';
+    star.style.animationDuration = (Math.random()*3 + 1) + 's';
+    document.body.appendChild(star);
+  }
 
-const cards = [
-  {i:"https://i.imgflip.com/1bij.jpg", t:"Размытое предсказание #1"},
-  {i:"https://i.imgflip.com/1ur9b0.jpg", t:"Размытое предсказание #2"},
-  {i:"https://i.imgflip.com/30b1gx.jpg", t:"Размытое предсказание #3"},
-  {i:"https://i.imgflip.com/1bhk.jpg", t:"Размытое предсказание #4"},
-  {i:"https://i.postimg.cc/J0SGzxZ9/mem1.jpg", t:"Размытое предсказание #5"},
-];
+  // Массив мемов с размытыми предсказаниями
+  const cards = [
+    {i:"images/mem1.jpg", t:"Сегодня твоя тень будет звать тебя на кофе"},
+    {i:"images/mem2.jpg", t:"Ожидай внезапного прилива сарказма от близкого друга"},
+    {i:"images/mem3.jpg", t:"Твой телефон знает больше твоих секретов, чем ты сам"},
+    {i:"images/mem4.jpg", t:"Ты встретишь мем, который изменит твоё настроение"},
+    {i:"images/mem5.jpg", t:"Не все коты любят рыбу — это важно помнить"},
+    {i:"images/mem6.jpg", t:"Сегодня возможно необъяснимое желание танцевать в одиночку"},
+    {i:"images/mem7.jpg", t:"Внимание! Твой холодильник готов к перемирию"},
+    {i:"images/mem8.jpg", t:"Сарказм сегодня будет полезен, но умеренно"},
+    {i:"images/mem9.jpg", t:"Кто-то тайно готовит тебе мем-сюрприз"},
+    {i:"images/mem10.jpg", t:"Сегодня лучше держать глаза открытыми, а рот закрытым"}
+  ];
 
-// Функция предсказания
-function oracle(){
-  const q = document.getElementById("q").value.trim();
-  if(!q) return alert("Введите вопрос!");
-  const out = document.getElementById("out");
-  out.innerHTML = "";
-  const shuffled = cards.sort(()=>0.5-Math.random());
-  const pick = shuffled.slice(0,3);
-  pick.forEach(c=>{
-    out.innerHTML += `
-      <div class="card">
-        <img src="${c.i}">
-        <div class="prediction">${c.t}</div>
-      </div>`;
-  });
-}
+  function oracle(){
+    const out = document.getElementById("out");
+    out.innerHTML = "";
+
+    const shuffled = cards.sort(()=>0.5-Math.random());
+    const pick = shuffled.slice(0,3);
+
+    pick.forEach((c,index)=>{
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="card-inner">
+          <div class="card-front"></div>
+          <div class="card-back">
+            <img src="${c.i}">
+            <div class="prediction">${c.t}</div>
+          </div>
+        </div>
+      `;
+      out.appendChild(card);
+
+      // Анимация переворота с задержкой
+      setTimeout(()=>{
+        card.classList.add("flipped");
+      }, index * 700);
+    });
+  }
 </script>
 
 </body>
