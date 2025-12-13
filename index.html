@@ -19,6 +19,14 @@
   overflow-x: hidden;
 }
 
+  .top-ui {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #1a001a, #330033);
+  padding-bottom: 20px;
+  z-index: 10;
+}
+
   .magic {
   display: inline-block;
   animation: pulse 2s infinite;
@@ -150,10 +158,13 @@ button {
 </head>
 <body>
 
+<div class="top-ui">
 <h1><span class="magic">🔮</span> МемОракул</h1>
 <input type="text" id="question" placeholder="Напиши свой вопрос здесь">
+  <button onclick="oracle()">СПРОСИТЬ</button>
+</div>
+
 <div id="out"></div>
-<button onclick="oracle()">Спросить</button>
 
 <script>
   // Генерация звёзд
