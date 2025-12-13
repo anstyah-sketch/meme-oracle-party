@@ -25,6 +25,18 @@ body {
   overflow-x: auto;              /* если экран маленький, появляется прокрутка */
 }
 
+  .prediction {
+  font-size: 14px;        /* размер текста */
+  margin-top: 6px;        /* отступ сверху */
+  opacity: 0;             /* полностью скрыто */
+  transition: opacity 0.3s; /* плавное появление */
+  pointer-events: none;   /* чтобы не мешало наведению */
+}
+
+.card:hover .prediction {
+  opacity: 1;             /* при наведении курсора на карту текст становится видимым */
+}
+
 .box {
   width: 380px;
   background: rgba(0,0,0,0.75);
@@ -133,13 +145,14 @@ function oracle() {
 
   const pick = [...cards].sort(()=>0.5-Math.random()).slice(0,3);
 
-  pick.forEach(c=>{
-    out.innerHTML += `
-      <div class="card">
-        <img src="${c.i}">
-        <div style="margin-top:6px;font-size:14px">${c.t}</div>
-      </div>`;
-  });
+pick.forEach(c=>{
+  out.innerHTML += `
+    <div class="card">
+      <img src="${c.i}">
+      <div class="prediction">${c.t}</div>
+    </div>`;
+});
+
 }
 </script>
 </body>
