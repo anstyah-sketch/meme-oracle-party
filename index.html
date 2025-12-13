@@ -10,6 +10,22 @@
     overflow-x: hidden;
     font-family: sans-serif;
     color: #fff;
+    text-align: center;
+  }
+
+  h1 {
+    margin-top: 20px;
+    font-size: 36px;
+  }
+
+  input[type=text] {
+    padding: 10px;
+    width: 60%;
+    max-width: 400px;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 18px;
   }
 
   /* Мерцающие звёзды */
@@ -29,9 +45,10 @@
   #out {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 20px;
     gap: 30px;
     flex-wrap: wrap;
+    flex-direction: row;
   }
 
   .card {
@@ -108,10 +125,17 @@
   button:hover {
     transform: scale(1.1);
   }
+
+  .question-text {
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
 </style>
 </head>
 <body>
 
+<h1>Меморакул</h1>
+<input type="text" id="question" placeholder="Напиши свой вопрос здесь">
 <div id="out"></div>
 <button onclick="oracle()">СПРОСИТЬ</button>
 
@@ -144,8 +168,14 @@
   ];
 
   function oracle(){
+    const question = document.getElementById("question").value;
+    if(!question){
+      alert("Сначала напиши вопрос!");
+      return;
+    }
+
     const out = document.getElementById("out");
-    out.innerHTML = "";
+    out.innerHTML = `<div class="question-text">Вопрос: "${question}"</div>`;
 
     const shuffled = cards.sort(()=>0.5-Math.random());
     const pick = shuffled.slice(0,3);
