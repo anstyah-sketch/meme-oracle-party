@@ -2,60 +2,103 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Мем-Оракул 🔮</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мем-Оракул</title>
 <style>
 body {
-  background: radial-gradient(circle at top, #2b0036, #000);
-  color: #fff;
-  font-family: system-ui, sans-serif;
   margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #fff;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
 }
 
-  #out {
-  display: flex;                 /* выстраиваем карты в ряд */
-  justify-content: space-between; /* равные отступы между картами */
-  flex-wrap: nowrap;             /* не переносим на следующую строку */
-  gap: 10px;                     /* расстояние между картами */
-  margin-top: 15px;
-  overflow-x: auto;              /* если экран маленький, появляется прокрутка */
-}
-
-  .prediction {
-  font-size: 14px;        /* размер текста */
-  margin-top: 6px;        /* отступ сверху */
-  opacity: 0;             /* полностью скрыто */
-  transition: opacity 0.3s; /* плавное появление */
-  pointer-events: none;   /* чтобы не мешало наведению */
-}
-
-.card:hover .prediction {
-  opacity: 1;             /* при наведении курсора на карту текст становится видимым */
-}
-
+/* Контейнер для ввода */
 .box {
-  width: 380px;
+  position: relative; /* для z-index */
+  z-index: 1; /* поверх звёзд */
   background: rgba(0,0,0,0.75);
   padding: 20px;
-  border-radius: 18px;
+  border-radius: 10px;
+  width: 400px;
+  margin: 50px auto;
   text-align: center;
-  box-shadow: 0 0 30px rgba(255,0,120,0.2);
 }
 
-h1 { font-size: 22px; }
-
+/* Поле ввода и кнопка */
 input, button {
-  width: 100%;
   padding: 12px;
-  margin-top: 10px;
-  border-radius: 10px;
+  font-size: 16px;
+  margin: 5px 0;
+  width: 80%;
+  border-radius: 5px;
   border: none;
 }
 
+/* Горизонтальное расположение карт */
+#out {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-top: 15px;
+  overflow-x: auto;
+  z-index: 1;
+  position: relative;
+}
+
+/* Каждая карта */
+.card {
+  flex: 1 1 30%;
+  border-top: none;
+  padding-top: 0;
+  text-align: center;
+}
+
+/* Картинка в карте */
+.card img {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Текст расшифровки (появляется при наведении) */
+.prediction {
+  font-size: 14px;
+  margin-top: 6px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.card:hover .prediction {
+  opacity: 1;
+}
+
+/* Кнопка и поле ввода больше на ПК */
+@media screen and (min-width: 1024px) {
+  .box {
+    width: 600px;
+    padding: 30px;
+  }
+
+  input, button {
+    padding: 16px;
+    font-size: 18px;
+  }
+
+  .card img {
+    max-height: 350px;
+  }
+}
+
+/* Звёздное небо */
 .stars {
   position: fixed;
   top: 0;
@@ -74,11 +117,12 @@ input, button {
   width: 2px;
   height: 2px;
   background: white;
-  box-shadow: 
+  box-shadow:
     10px 20px white, 50px 80px white, 120px 40px white, 200px 150px white,
     250px 30px white, 300px 90px white, 350px 200px white, 400px 50px white,
     450px 120px white, 500px 70px white, 550px 160px white, 600px 20px white,
-    650px 180px white, 700px 100px white, 750px 200px white, 800px 60px white;
+    650px 180px white, 700px 100px white, 750px 200px white, 800px 60px white,
+    850px 140px white, 900px 30px white, 950px 190px white, 1000px 80px white;
   animation: twinkle 3s infinite alternate;
 }
 
@@ -87,116 +131,60 @@ input, button {
   50% { opacity: 0.6; }
   100% { opacity: 1; }
 }
-
-button {
-  background: linear-gradient(135deg,#ff3d81,#ff9a3d);
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.card {
-  flex: 1 1 30%;     /* каждая карта занимает примерно 30% ширины */
-  border-top: none;  /* убираем верхнюю границу */
-  padding-top: 0;
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-  max-height: 250px;  /* фиксированная высота */
-  object-fit: cover;   /* картинка пропорционально вписывается */
-  border-radius: 10px; /* скругление углов */
-}
-
-@media screen and (min-width: 1024px) {
-  .box {
-    width: 600px;      /* шире блок для ввода и карт */
-    padding: 30px;     /* чуть больше внутреннего отступа */
-  }
-
-.box {
-  position: relative;
-  z-index: 1;  /* поверх звёзд */
-  background: rgba(0,0,0,0.75);
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  margin: 50px auto;
-}
-
-  input, button {
-    padding: 16px;     /* больше кнопка и поле ввода */
-    font-size: 18px;   /* увеличиваем шрифт */
-  }
-
-  .card img {
-    max-height: 350px;  /* чуть больше картинки */
-  }
-}
-
-@keyframes fade {
-  from { opacity:0; transform: translateY(10px); }
-  to { opacity:1; transform: translateY(0); }
-}
 </style>
 </head>
-
 <body>
-  <div class="stars"></div>
+
+<div class="stars"></div>
+
 <div class="box">
   <h1>🔮 Мем-Оракул</h1>
-  <p style="font-size:14px;opacity:.8">
-    Мемы знают правду. Иногда слишком хорошо.
-  </p>
-
-  <input id="q" placeholder="Задай свой вопрос…">
+  <input type="text" id="q" placeholder="Задай вопрос">
+  <br>
   <button onclick="oracle()">СПРОСИТЬ</button>
-
   <div id="out"></div>
 </div>
 
 <script>
 const cards = [
-{n:"This Is Fine",i:"https://i.imgflip.com/1bij.jpg",t:"Всё горит, но ты пока держишь лицо."},
-{n:"Distracted Boyfriend",i:"https://i.imgflip.com/1ur9b0.jpg",t:"Ты смотришь не туда. И это очевидно всем, кроме тебя."},
-{n:"Surprised Pikachu",i:"https://i.imgflip.com/30b1gx.jpg",t:"Ну да. А чего ты ожидал?"},
-{n:"Success Kid",i:"https://i.imgflip.com/1bhk.jpg",t:"Маленькая победа. Заслуженно."},
-{n:"Hide the Pain Harold",i:"https://i.imgflip.com/gk5el.jpg",t:"Ты улыбаешься, но внутри всё понятно."},
-{n:"Woman Yelling at Cat",i:"https://i.imgflip.com/345v97.jpg",t:"Конфликт надуман. Но шуму будет много."},
-{n:"Drake Hotline Bling",i:"https://i.imgflip.com/30b1gx.jpg",t:"Один вариант — мимо. Второй — очевидный."},
-{n:"Two Buttons",i:"https://i.imgflip.com/1g8my4.jpg",t:"Выбор неприятный. Но делать его всё равно придётся."},
-{n:"Change My Mind",i:"https://i.imgflip.com/24y43o.jpg",t:"Ты уверен(а). И спорить с тобой бесполезно."},
-{n:"Mocking SpongeBob",i:"https://i.imgflip.com/1otk96.jpg",t:"Кто-то явно не воспринимает ситуацию всерьёз."},
-{n:"Expanding Brain",i:"https://i.imgflip.com/1jwhww.jpg",t:"Мысль развивается. Не всегда в лучшую сторону."},
-{n:"Disaster Girl",i:"https://i.imgflip.com/23ls.jpg",t:"Ты наблюдаешь хаос. И да, ты к нему причастен(на)."},
-{n:"Sad Pablo Escobar",i:"https://i.imgflip.com/1c1uej.jpg",t:"Ожидание затянулось. Терпение на исходе."},
-{n:"Is This a Pigeon?",i:"https://i.imgflip.com/1o00in.jpg",t:"Ты что-то путаешь. Но очень уверенно."},
-{n:"Leonardo DiCaprio Cheers",i:"https://i.imgflip.com/3x5i.jpg",t:"За это стоит выпить. Даже если повод сомнительный."},
-{n:"Ancient Aliens",i:"https://i.imgflip.com/26am.jpg",t:"Логики нет. Но звучит убедительно."},
-{n:"Grumpy Cat",i:"https://i.imgflip.com/8p0a.jpg",t:"Тебе это не нравится. И это нормально."},
-{n:"Bad Luck Brian",i:"https://i.imgflip.com/1bip.jpg",t:"Идея была хорошая. Исполнение — нет."},
-{n:"Doge",i:"https://i.imgflip.com/4t0m5.jpg",t:"Сомнительно. Но весело."},
-{n:"Boardroom Meeting",i:"https://i.imgflip.com/m78d.jpg",t:"Это решение продавят. Хочешь ты того или нет."}
-
-  // ⬇⬇⬇ ещё 90 карт (укорочено тут для читаемости)
-  // Я дам полный список ниже, который ты просто вставишь
+  {n:"This Is Fine",i:"https://i.imgflip.com/1bij.jpg",t:"Всё горит, но ты пока держишь лицо."},
+  {n:"Distracted Boyfriend",i:"https://i.imgflip.com/1ur9b0.jpg",t:"Ты смотришь не туда. И это очевидно всем, кроме тебя."},
+  {n:"Surprised Pikachu",i:"https://i.imgflip.com/30b1gx.jpg",t:"Ну да. А чего ты ожидал?"},
+  {n:"Success Kid",i:"https://i.imgflip.com/1bhk.jpg",t:"Маленькая победа. Заслуженно."},
+  {n:"Hide the Pain Harold",i:"https://i.imgflip.com/gk5el.jpg",t:"Ты улыбаешься, но внутри всё понятно."},
+  {n:"Woman Yelling at Cat",i:"https://i.imgflip.com/345v97.jpg",t:"Конфликт надуман. Но шуму будет много."},
+  {n:"Drake Hotline Bling",i:"https://i.imgflip.com/30b1gx.jpg",t:"Один вариант — мимо. Второй — очевидный."},
+  {n:"Two Buttons",i:"https://i.imgflip.com/1g8my4.jpg",t:"Выбор неприятный. Но делать его всё равно придётся."},
+  {n:"Change My Mind",i:"https://i.imgflip.com/24y43o.jpg",t:"Ты уверен(а). И спорить с тобой бесполезно."},
+  {n:"Mocking SpongeBob",i:"https://i.imgflip.com/1otk96.jpg",t:"Кто-то явно не воспринимает ситуацию всерьёз."},
+  {n:"Expanding Brain",i:"https://i.imgflip.com/1jwhww.jpg",t:"Мысль развивается. Не всегда в лучшую сторону."},
+  {n:"Disaster Girl",i:"https://i.imgflip.com/23ls.jpg",t:"Ты наблюдаешь хаос. И да, ты к нему причастен(на)."},
+  {n:"Sad Pablo Escobar",i:"https://i.imgflip.com/1c1uej.jpg",t:"Ожидание затянулось. Терпение на исходе."},
+  {n:"Is This a Pigeon?",i:"https://i.imgflip.com/1o00in.jpg",t:"Ты что-то путаешь. Но очень уверенно."},
+  {n:"Leonardo DiCaprio Cheers",i:"https://i.imgflip.com/3x5i.jpg",t:"За это стоит выпить. Даже если повод сомнительный."},
+  {n:"Ancient Aliens",i:"https://i.imgflip.com/26am.jpg",t:"Логики нет. Но звучит убедительно."},
+  {n:"Grumpy Cat",i:"https://i.imgflip.com/8p0a.jpg",t:"Тебе это не нравится. И это нормально."},
+  {n:"Bad Luck Brian",i:"https://i.imgflip.com/1bip.jpg",t:"Идея была хорошая. Исполнение — нет."},
+  {n:"Doge",i:"https://i.imgflip.com/4t0m5.jpg",t:"Сомнительно. Но весело."},
+  {n:"Boardroom Meeting",i:"https://i.imgflip.com/m78d.jpg",t:"Это решение продавят. Хочешь ты того или нет."}
 ];
 
-function oracle() {
+function oracle(){
+  const q = document.getElementById("q").value.trim();
+  if(!q) return alert("Введите вопрос!");
   const out = document.getElementById("out");
   out.innerHTML = "";
-
-  const pick = [...cards].sort(()=>0.5-Math.random()).slice(0,3);
-
-pick.forEach(c=>{
-  out.innerHTML += `
-    <div class="card">
-      <img src="${c.i}">
-      <div class="prediction">${c.t}</div>
-    </div>`;
-});
-
+  const shuffled = cards.sort(()=>0.5-Math.random());
+  const pick = shuffled.slice(0,3);
+  pick.forEach(c=>{
+    out.innerHTML += `
+      <div class="card">
+        <img src="${c.i}">
+        <div class="prediction">${c.t}</div>
+      </div>`;
+  });
 }
 </script>
+
 </body>
 </html>
