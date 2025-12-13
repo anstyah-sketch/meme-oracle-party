@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мем-Оракул</title>
-<!-- Подключаем магический шрифт -->
-<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
 <style>
 body {
   margin: 0;
@@ -31,22 +29,9 @@ body {
   100% { transform: scale(1); opacity: 0.7; }
 }
 
-/* Магический заголовок */
 h1 {
-  font-family: 'MedievalSharp', cursive;
-  font-size: 48px;
-  background: linear-gradient(90deg, #9b30ff, #d05cff, #9b30ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 5px #9b30ff, 0 0 10px #d05cff, 0 0 15px #9b30ff;
-  animation: glowText 2s infinite alternate;
   margin-top: 30px;
-}
-
-@keyframes glowText {
-  0% { text-shadow: 0 0 5px #9b30ff, 0 0 10px #d05cff, 0 0 15px #9b30ff; }
-  50% { text-shadow: 0 0 10px #d05cff, 0 0 20px #9b30ff, 0 0 25px #d05cff; }
-  100% { text-shadow: 0 0 5px #9b30ff, 0 0 10px #d05cff, 0 0 15px #9b30ff; }
+  font-size: 36px;
 }
 
 input[type=text] {
@@ -136,7 +121,7 @@ input::placeholder {
 }
 
 .card-front {
-  background: url('https://i.postimg.cc/YqzQ3GKV/rubaska.jpg') no-repeat center center;
+  background: url('https://i.postimg.cc/tRBjxb2v/rubaska.jpg') no-repeat center center;
   background-size: cover;
   height: 350px;
   border-radius: 10px;
