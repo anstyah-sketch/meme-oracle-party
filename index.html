@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мем-Оракул</title>
 <style>
-body {
+
+  body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -16,6 +17,17 @@ body {
   align-items: center;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+  .magic {
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
 }
 
   h1 {
@@ -116,7 +128,7 @@ body {
 
 button {
   display: block;
-  margin: 20px auto 40px auto; /* ↓ ВАЖНО */
+  margin: 20px auto 20px auto; /* ↓ ВАЖНО */
   padding: 12px 30px;
   font-size: 20px;
   background: #9b30ff;
@@ -138,7 +150,7 @@ button {
 </head>
 <body>
 
-<h1>Меморакул</h1>
+  <h1>🔮 Меморакул</h1>
 <input type="text" id="question" placeholder="Напиши свой вопрос здесь">
 <div id="out"></div>
 <button onclick="oracle()">СПРОСИТЬ</button>
