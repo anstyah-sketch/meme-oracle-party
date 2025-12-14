@@ -95,13 +95,28 @@ button:hover {
   perspective: 1000px;
   display: inline-block;
   opacity: 0;
-  transform: translateY(-50px) scale(0.85);
+  transform: translateY(-50px);
   transition: opacity 0.5s, transform 0.5s;
 }
 
 .card.show {
   opacity: 1;
   transform: translateY(0);
+}
+/* Центральная карта — минус 5% */
+.card.center {
+  transform: translateY(0) scale(0.95);
+}
+
+/* Крайние карты — минус 15% */
+.card.side {
+  transform: translateY(0) scale(0.85);
+}
+
+/* Анимация плавания */
+.card.center.show,
+.card.side.show {
+  animation: float 2s ease-in-out infinite alternate;
 }
 
 @keyframes float {
@@ -244,21 +259,6 @@ button:hover {
   .card.flipped .card-inner {
     transform: rotateY(180deg);
   }
-/* Центральная карта — минус 5% */
-.card.center {
-  transform: translateY(0) scale(0.95);
-}
-
-/* Крайние карты — минус 15% */
-.card.side {
-  transform: translateY(0) scale(0.85);
-}
-
-/* Возвращаем анимацию плавания */
-.card.center.show,
-.card.side.show {
-  animation: float 2s ease-in-out infinite alternate;
-}
 
 </style>
 </head>
