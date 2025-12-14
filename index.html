@@ -213,46 +213,34 @@ button:hover {
   #out {
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* расстояние между картами */
+    gap: 8px; /* уменьшили расстояние между картами */
   }
 
   .card {
     width: 90%;
     max-width: 300px;
+    margin-bottom: 0; /* убрали лишние отступы */
     perspective: 1000px;
-    margin-bottom: 0; /* удаляем лишние отступы */
+  }
+
+  .card-front,
+  .card-back {
+    position: relative; 
+    width: 100%;
+    min-height: 350px; 
+    border-radius: 10px;
+    margin-bottom: 0; /* важно убрать */
   }
 
   .card-inner {
     transform: rotateY(0deg) !important;
-    transition: transform 0.8s; /* плавный переворот */
+    transition: transform 0.8s;
   }
 
   .card.show {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
-  }
-
-  .card-front,
-  .card-back {
-    position: relative; /* карты не накладываются */
-    width: 100%;
-    min-height: 350px; /* фиксированная высота рубашки */
-    border-radius: 10px;
-    margin-bottom: 0; /* убрать лишние отступы */
-  }
-
-  .card-front {
-    background: url('https://i.postimg.cc/tRBjxb2v/rubaska.jpg') no-repeat center center;
-    background-size: cover;
-  }
-
-  .card-back img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 10px;
   }
 
   .card.flipped .card-inner {
