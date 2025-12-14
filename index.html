@@ -99,9 +99,17 @@ button:hover {
   transition: opacity 0.5s, transform 0.5s;
 }
 
+/* Центральная карта меньше на 5%, крайние на 20% */
+.card.center {
+  transform: translateY(0) scale(0.95);
+}
+
+.card.side {
+  transform: translateY(0) scale(0.8);
+}
+
 .card.show {
   opacity: 1;
-  transform: translateY(0);
   animation: float 2s ease-in-out infinite alternate;
 }
 
@@ -213,7 +221,7 @@ button:hover {
   #out {
     flex-direction: column;
     align-items: center;
-    gap: 10px; /* расстояние между картами */
+    gap: 10px;
   }
 
   .card {
@@ -231,7 +239,7 @@ button:hover {
 
   .card-front,
   .card-back {
-    position: relative; /* убираем absolute */
+    position: relative;
     width: 100%;
     min-height: 350px;
     border-radius: 10px;
@@ -246,7 +254,6 @@ button:hover {
     transform: rotateY(180deg);
   }
 }
-
 </style>
 </head>
 <body>
@@ -378,39 +385,45 @@ const cards = [
 ];
 
 document.getElementById("question").addEventListener("keypress", function(event) {
-  if (event.key === "Enter") oracle();
+  if(event.key==="Enter") oracle();
 });
 
 function createSparks(card){
   for(let i=0;i<15;i++){
-    const spark = document.createElement('div');
-    spark.className = 'spark';
-    const x = (Math.random()*100-50)+'px';
-    const y = (Math.random()*100-50)+'px';
-    spark.style.setProperty('--x', x);
-    spark.style.setProperty('--y', y);
+    const spark=document.createElement('div');
+    spark.className='spark';
+    const x=(Math.random()*100-50)+'px';
+    const y=(Math.random()*100-50)+'px';
+    spark.style.setProperty('--x',x);
+    spark.style.setProperty('--y',y);
     card.appendChild(spark);
     setTimeout(()=>spark.remove(),600);
   }
 }
 
 function oracle(){
-  const question = document.getElementById("question").value;
-  if(!question){
-    alert("Сначала напиши вопрос!");
-    return;
-  }
+  const question=document.getElementById("question").value;
+  if(!question){ alert("Сначала напиши вопрос!"); return; }
 
-const out = document.getElementById("out");
-out.innerHTML = ""; // очищаем старые карты, но не показываем вопрос
+  const out=document.getElementById("out");
+  out.innerHTML="";
 
-  const shuffled = cards.sort(()=>0.5-Math.random());
-  const pick = shuffled.slice(0,3);
+  const shuffled=cards.sort(()=>0.5-Math.random());
+  const pick=shuffled.slice(0,3);
+
+  const flipDelays=[1500,3000,3000]; // центральная первая, крайние вместе
 
   pick.forEach((c,index)=>{
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
+    const card=document.createElement("div");
+    card.className="card";
+
+    if(index===1){
+      card.classList.add("center");
+    } else {
+      card.classList.add("side");
+    }
+
+    card.innerHTML=`
       <div class="card-inner">
         <div class="card-front"></div>
         <div class="card-back">
@@ -419,14 +432,15 @@ out.innerHTML = ""; // очищаем старые карты, но не пок�
         </div>
       </div>
     `;
+
     out.appendChild(card);
 
-    setTimeout(()=>{ 
-      card.classList.add("show"); 
+    setTimeout(()=>{
+      card.classList.add("show");
       createSparks(card);
     }, index*300);
 
-    setTimeout(()=>{ card.classList.add("flipped"); }, 2000 + index*700);
+    setTimeout(()=>{ card.classList.add("flipped"); }, flipDelays[index]);
   });
 }
 </script>
