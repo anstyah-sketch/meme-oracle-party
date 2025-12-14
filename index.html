@@ -116,6 +116,13 @@ button:hover {
 .card.side.show {
   animation: float 2s ease-in-out infinite alternate;
 }
+.card.center {
+  transform: translateY(0) scale(0.95); /* центральная -5% */
+}
+
+.card.side {
+  transform: translateY(0) scale(0.8);  /* крайние -20% */
+}
 
 @keyframes float {
   0% { transform: translateY(-10px); }
@@ -427,13 +434,11 @@ function oracle(){
     card.className = "card";
 
     // масштаб: центральная -0.05, крайние -0.2
-    if(index === 1){
-      card.classList.add("center");
-      card.style.transform = "scale(0.95)";
-    } else {
-      card.classList.add("side");
-      card.style.transform = "scale(0.8)";
-    }
+if(index === 1){
+  card.classList.add("center"); // центральная карта
+} else {
+  card.classList.add("side");   // крайние карты
+}
 
     card.innerHTML = `
       <div class="card-inner">
