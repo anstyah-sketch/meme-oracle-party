@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Мем-Оракул</title>
+
 <style>
 body {
   margin: 0;
@@ -18,9 +19,40 @@ body {
   overflow-x: hidden;
 }
 
+/* ===== ЗАГОЛОВОК ===== */
+h1 {
+  margin-top: 30px;
+  font-size: 38px;
+  letter-spacing: 1px;
+  position: relative;
+  color: #fff;
+  text-shadow:
+    0 0 6px rgba(155,48,255,0.6),
+    0 0 12px rgba(208,92,255,0.4);
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
 .magic {
   display: inline-block;
   animation: pulse 2s infinite;
+}
+
+@keyframes titleGlow {
+  0% {
+    text-shadow:
+      0 0 6px rgba(155,48,255,0.4),
+      0 0 12px rgba(208,92,255,0.3);
+  }
+  50% {
+    text-shadow:
+      0 0 12px rgba(208,92,255,0.8),
+      0 0 24px rgba(155,48,255,0.6);
+  }
+  100% {
+    text-shadow:
+      0 0 6px rgba(155,48,255,0.4),
+      0 0 12px rgba(208,92,255,0.3);
+  }
 }
 
 @keyframes pulse {
@@ -29,271 +61,4 @@ body {
   100% { transform: scale(1); opacity: 0.7; }
 }
 
-h1 {
-  margin-top: 30px;
-  font-size: 36px;
-}
-
-input[type=text] {
-  padding: 12px 20px;
-  width: 60%;
-  max-width: 400px;
-  margin: 20px 0;
-  border-radius: 15px;
-  border: 2px solid #9b30ff;
-  font-size: 18px;
-  background: linear-gradient(145deg, #330044, #110022);
-  color: #fff;
-  box-shadow: 0 0 10px rgba(155,48,255,0.5);
-  text-shadow: 0 0 3px rgba(0,0,0,0.5);
-}
-
-input::placeholder {
-  color: #ccc;
-}
-
-/* Мерцающие звёзды */
-.star {
-  position: fixed;
-  z-index: 0;
-  pointer-events: none;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: white;
-  opacity: 0.8;
-  animation: twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle {
-  0% { opacity: 0.2; transform: scale(0.5); }
-  100% { opacity: 1; transform: scale(1.2); }
-}
-
-#out {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  z-index: 1;
-  position: relative;
-}
-
-.card {
-  width: 250px;
-  perspective: 1000px;
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(-50px);
-  transition: opacity 0.5s, transform 0.5s;
-}
-
-.card.show {
-  opacity: 1;
-  transform: translateY(0);
-  animation: float 2s ease-in-out infinite alternate;
-}
-
-@keyframes float {
-  0% { transform: translateY(-10px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(-10px); }
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  transform-style: preserve-3d;
-  transition: transform 2s;
-}
-
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  backface-visibility: hidden;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255,255,255,0.2);
-}
-
-.card-front {
-  background: url('https://i.postimg.cc/tRBjxb2v/rubaska.jpg') no-repeat center center;
-  background-size: cover;
-  height: 350px;
-  border-radius: 10px;
-  animation: glow 2s infinite alternate;
-}
-
-@keyframes glow {
-  0% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-  50% { box-shadow: 0 0 25px rgba(255,255,255,0.6); }
-  100% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-}
-
-.card-back {
-  transform: rotateY(180deg);
-  height: 350px;
-  text-align: center;
-}
-
-.card-back img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 10px;
-}
-
-.prediction {
-  display: none;
-  position: absolute;
-  bottom: 10px;
-  width: 90%;
-  left: 5%;
-  background: rgba(0,0,0,0.6);
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.card-back:hover .prediction {
-  display: block;
-}
-
-/* Кнопка «Спросить» */
-button {
-  display: block;
-  margin: -5px auto 60px auto;
-  padding: 12px 30px;
-  font-size: 20px;
-  background: linear-gradient(135deg, #9b30ff, #d05cff, #9b30ff);
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.5s, transform 0.2s;
-}
-
-button:hover {
-  background: linear-gradient(135deg, #d05cff, #9b30ff, #d05cff);
-  transform: scale(1.1);
-}
-
-.question-text {
-  margin-bottom: 15px;
-  font-size: 20px;
-}
-
-/* Эффект мини-искорок */
-.spark {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: white;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.8;
-  z-index: 5;
-  animation: sparkMove 0.6s ease-out forwards;
-}
-
-@keyframes sparkMove {
-  0% { transform: translate(0,0) scale(1); opacity:1; }
-  100% { transform: translate(var(--x), var(--y)) scale(0); opacity:0; }
-}
-</style>
-</head>
-<body>
-
-<h1><span class="magic">🔮</span> МемОракул</h1>
-<input type="text" id="question" placeholder="Напиши свой вопрос здесь">
-<button onclick="oracle()">Спросить</button>
-<div id="out"></div>
-
-<script>
-// Звёзды на фоне
-window.addEventListener('load', () => {
-  const numStars = 200;
-  for(let i=0;i<numStars;i++){
-    const star = document.createElement('div');
-    star.className = 'star';
-    const size = Math.random()*3+1;
-    star.style.width = star.style.height = size+'px';
-    star.style.top = Math.random() * window.innerHeight + 'px';
-    star.style.left = Math.random() * window.innerWidth + 'px';
-    star.style.animationDuration = (Math.random()*3+1)+'s';
-    document.body.appendChild(star);
-  }
-});
-
-// Карты с мемами
-const cards = [
-  {i:"https://i.postimg.cc/XqyL128f/mem14.jpg", t:"За это стоит выпить. Даже если повод сомнительный."},
-  {i:"https://i.postimg.cc/4yhP285Q/mem15.jpg", t:"Идея была хорошая. Исполнение — нет."},
-  {i:"https://i.postimg.cc/br2gV6Tr/mem23.jpg", t:"Сегодня твоя тень будет звать тебя на кофе"},
-  {i:"https://i.postimg.cc/RhndpPRt/mem18.jpg", t:"Ожидай внезапного прилива сарказма от близкого друга"},
-  {i:"https://i.postimg.cc/nrQ2Sdkd/mem10.jpg", t:"Твой телефон знает больше твоих секретов, чем ты сам"},
-  {i:"https://i.postimg.cc/T1W0Nk97/mem11.jpg", t:"Ты встретишь мем, который изменит твоё настроение"},
-  {i:"https://i.postimg.cc/G9wQWk7v/mem13.gif", t:"Не все коты любят рыбу — это важно помнить"}
-];
-
-// Enter срабатывает
-document.getElementById("question").addEventListener("keypress", function(event) {
-  if (event.key === "Enter") oracle();
-});
-
-function createSparks(card){
-  for(let i=0;i<15;i++){
-    const spark = document.createElement('div');
-    spark.className = 'spark';
-    const x = (Math.random()*100-50)+'px';
-    const y = (Math.random()*100-50)+'px';
-    spark.style.setProperty('--x', x);
-    spark.style.setProperty('--y', y);
-    card.appendChild(spark);
-    setTimeout(()=>spark.remove(),600);
-  }
-}
-
-function oracle(){
-  const question = document.getElementById("question").value;
-  if(!question){
-    alert("Сначала напиши вопрос!");
-    return;
-  }
-
-  const out = document.getElementById("out");
-  out.innerHTML = `<div class="question-text">Вопрос: "${question}"</div>`;
-
-  const shuffled = cards.sort(()=>0.5-Math.random());
-  const pick = shuffled.slice(0,3);
-
-  pick.forEach((c,index)=>{
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <div class="card-inner">
-        <div class="card-front"></div>
-        <div class="card-back">
-          <img src="${c.i}">
-          <div class="prediction">${c.t}</div>
-        </div>
-      </div>
-    `;
-    out.appendChild(card);
-
-    setTimeout(()=>{ 
-      card.classList.add("show"); 
-      createSparks(card); // мини-искорки при появлении
-    }, index*300);
-
-    setTimeout(()=>{ card.classList.add("flipped"); }, 2000 + index*700);
-  });
-}
-</script>
-
-</body>
-</html>
+/* ===== ПОЛЕ ВОПРОСА ===== */
