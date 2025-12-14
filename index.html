@@ -388,6 +388,7 @@ const cards = [
 {i:"https://i.postimg.cc/2626DMsG/mem70.jpg", t:"Ты не ожидал, но был готов."},
 ];
 
+<script>
 document.getElementById("question").addEventListener("keypress", function(event) {
   if (event.key === "Enter") oracle();
 });
@@ -413,18 +414,26 @@ function oracle(){
   }
 
   const out = document.getElementById("out");
-  out.innerHTML = ""; // очищаем старые карты
+  out.innerHTML = "";
 
   const shuffled = cards.sort(() => 0.5 - Math.random());
   const pick = shuffled.slice(0, 3);
 
-  // Задаём задержки переворота: левый, центр, правый
-  const flipDelays = [2500, 1500, 3000]; 
+  // задержки переворота: центр первый
+  const flipDelays = [2500, 1500, 3000];
 
   pick.forEach((c, index) => {
     const card = document.createElement("div");
     card.className = "card";
-    card.classList.add(index === 1 ? "center" : "side");
+
+    // масштаб: центральная -0.05, крайние -0.2
+    if(index === 1){
+      card.classList.add("center");
+      card.style.transform = "scale(0.95)";
+    } else {
+      card.classList.add("side");
+      card.style.transform = "scale(0.8)";
+    }
 
     card.innerHTML = `
       <div class="card-inner">
@@ -438,19 +447,19 @@ function oracle(){
 
     out.appendChild(card);
 
-    // Показ карты и искры
+    // показываем карту и искры
     setTimeout(() => {
       card.classList.add("show");
       createSparks(card);
     }, index * 300);
 
-    // Переворот карты с индивидуальной задержкой
-    const flipDelay = flipDelays[index];
+    // переворот карты с индивидуальной задержкой
     setTimeout(() => {
       card.classList.add("flipped");
-    }, flipDelay);
+    }, flipDelays[index]);
   });
 }
 </script>
+
 </body>
 </html>
