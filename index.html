@@ -452,10 +452,14 @@ if (index === 1) {
   flipDelay = 3000; // правый
 }
 
-setTimeout(() => {
-  card.classList.add("flipped");
-}, flipDelay);
+    setTimeout(()=>{ 
+      card.classList.add("show"); 
+      createSparks(card);
+    }, index*300);
 
+    setTimeout(()=>{ card.classList.add("flipped"); }, 2000 + index*700);
+  });
+}
 </script>
 
 </body>
