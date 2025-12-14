@@ -401,8 +401,8 @@ function oracle(){
     return;
   }
 
-  const out = document.getElementById("out");
-  out.innerHTML = `<div class="question-text">Вопрос: "${question}"</div>`;
+const out = document.getElementById("out");
+out.innerHTML = ""; // очищаем старые карты, но не показываем вопрос
 
   const shuffled = cards.sort(()=>0.5-Math.random());
   const pick = shuffled.slice(0,3);
