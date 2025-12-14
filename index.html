@@ -212,17 +212,19 @@ button:hover {
 /* Мобильная версия */
 @media (max-width: 600px) {
   #out {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column; /* карты вертикально */
+    align-items: center;    /* по центру */
+    gap: 20px;              /* расстояние между картами */
   }
+
   .card {
-    width: 80%;
+    width: 80%;             
     max-width: 300px;
-    transform: none !important;
-    opacity: 1 !important;
-    animation: none !important;
+    transform: none !important; 
+    opacity: 1 !important;      
+    animation: none !important;  
   }
+}
   .card-front, .card-back {
     position: relative !important;
     width: 100%;
