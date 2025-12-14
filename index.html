@@ -103,14 +103,12 @@ button:hover {
   opacity: 1;
   transform: translateY(0);
 }
-/* Центральная карта — минус 5% */
-.card.center {
-  transform: translateY(0) scale(0.95);
+.card.center .card-inner {
+  transform: scale(0.95);
 }
 
-/* Крайние карты — минус 15% */
-.card.side {
-  transform: translateY(0) scale(0.85);
+.card.side .card-inner {
+  transform: scale(0.85);
 }
 
 /* Анимация плавания */
