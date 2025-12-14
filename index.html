@@ -6,9 +6,9 @@
 <title>Мем-Оракул</title>
 
 <style>
+/* ===== ОСНОВА ===== */
 body {
   margin: 0;
-  padding: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(180deg, #110022, #330044);
   color: #fff;
@@ -23,42 +23,252 @@ body {
 h1 {
   margin-top: 30px;
   font-size: 38px;
-  letter-spacing: 1px;
-  position: relative;
-  color: #fff;
-  text-shadow:
-    0 0 6px rgba(155,48,255,0.6),
-    0 0 12px rgba(208,92,255,0.4);
+  text-shadow: 0 0 10px rgba(155,48,255,0.6);
   animation: titleGlow 3s ease-in-out infinite;
 }
 
 .magic {
-  display: inline-block;
   animation: pulse 2s infinite;
 }
 
 @keyframes titleGlow {
-  0% {
-    text-shadow:
-      0 0 6px rgba(155,48,255,0.4),
-      0 0 12px rgba(208,92,255,0.3);
-  }
-  50% {
-    text-shadow:
-      0 0 12px rgba(208,92,255,0.8),
-      0 0 24px rgba(155,48,255,0.6);
-  }
-  100% {
-    text-shadow:
-      0 0 6px rgba(155,48,255,0.4),
-      0 0 12px rgba(208,92,255,0.3);
-  }
+  0% { text-shadow: 0 0 8px rgba(155,48,255,0.4); }
+  50% { text-shadow: 0 0 18px rgba(208,92,255,0.9); }
+  100% { text-shadow: 0 0 8px rgba(155,48,255,0.4); }
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.7; }
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
 }
 
-/* ===== ПОЛЕ ВОПРОСА ===== */
+/* ===== ПОЛЕ ===== */
+input {
+  width: 80%;
+  max-width: 400px;
+  padding: 12px 20px;
+  border-radius: 15px;
+  border: 2px solid #9b30ff;
+  font-size: 18px;
+  background: linear-gradient(145deg, #330044, #110022);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(155,48,255,0.6);
+}
+
+/* ===== КНОПКА ===== */
+button {
+  margin: 20px 0 60px;
+  padding: 12px 30px;
+  font-size: 20px;
+  background: linear-gradient(135deg, #9b30ff, #d05cff);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(208,92,255,0.9);
+}
+
+/* ===== ЗВЁЗДЫ ===== */
+.star {
+  position: fixed;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 2s infinite alternate;
+  z-index: 0;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+/* ===== КОМЕТЫ ===== */
+.comet {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow: 0 0 12px white;
+  animation: fly 1.5s linear forwards;
+  z-index: 0;
+}
+
+@keyframes fly {
+  to {
+    transform: translate(-400px,400px);
+    opacity: 0;
+  }
+}
+
+/* ===== ТУМАН ===== */
+.fog {
+  position: fixed;
+  bottom: 0;
+  width: 200%;
+  height: 200px;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15), transparent 70%);
+  animation: fogMove 40s linear infinite;
+  z-index: 1;
+}
+
+@keyframes fogMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===== КАРТЫ ===== */
+#out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  z-index: 2;
+}
+
+.card {
+  width: 240px;
+  perspective: 1000px;
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: 0.5s;
+}
+
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-inner {
+  transform-style: preserve-3d;
+  transition: transform 2s;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  height: 340px;
+  backface-visibility: hidden;
+  border-radius: 12px;
+}
+
+.card-front {
+  background: url('https://i.postimg.cc/tRBjxb2v/rubaska.jpg') center/cover;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* ===== ВСПЫШКА ===== */
+.flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.4), transparent);
+  animation: flash 0.6s ease-out forwards;
+  z-index: 10;
+}
+
+@keyframes flash {
+  to { opacity: 0; }
+}
+
+/* ===== МОБИЛКА ===== */
+@media(max-width:600px){
+  h1 { font-size: 30px; }
+  .card { width: 200px; }
+}
+</style>
+</head>
+
+<body>
+
+<h1><span class="magic">🔮</span> МемОракул</h1>
+<input id="question" placeholder="Задай вопрос…">
+<button onclick="oracle()">Спросить</button>
+<div id="out"></div>
+
+<div class="fog"></div>
+
+<audio id="flipSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_19f8d2a0fa.mp3"></audio>
+
+<script>
+/* ЗВЁЗДЫ */
+for(let i=0;i<200;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*2+1;
+  s.style.width=s.style.height=size+'px';
+  s.style.top=Math.random()*innerHeight+'px';
+  s.style.left=Math.random()*innerWidth+'px';
+  s.style.animationDuration=(Math.random()*3+1)+'s';
+  document.body.appendChild(s);
+}
+
+/* КОМЕТЫ */
+setInterval(()=>{
+  const c=document.createElement('div');
+  c.className='comet';
+  c.style.top=Math.random()*innerHeight+'px';
+  c.style.left=(innerWidth+100)+'px';
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),1500);
+},3500);
+
+const cards=[
+"https://i.postimg.cc/XqyL128f/mem14.jpg",
+"https://i.postimg.cc/4yhP285Q/mem15.jpg",
+"https://i.postimg.cc/br2gV6Tr/mem23.jpg"
+];
+
+document.getElementById("question").addEventListener("keypress",e=>{
+  if(e.key==="Enter") oracle();
+});
+
+function oracle(){
+  const out=document.getElementById("out");
+  out.innerHTML="";
+
+  const flash=document.createElement('div');
+  flash.className='flash';
+  document.body.appendChild(flash);
+  setTimeout(()=>flash.remove(),600);
+
+  cards.forEach((img,i)=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
+      <div class="card-inner">
+        <div class="card-front"></div>
+        <div class="card-back"><img src="${img}"></div>
+      </div>`;
+    out.appendChild(card);
+
+    setTimeout(()=>card.classList.add("show"),i*300);
+    setTimeout(()=>{
+      card.classList.add("flipped");
+      document.getElementById("flipSound").play();
+    },2000+i*700);
+  });
+}
+</script>
+
+</body>
+</html>
