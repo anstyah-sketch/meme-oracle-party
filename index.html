@@ -393,15 +393,15 @@ document.getElementById("question").addEventListener("keypress", function(event)
 });
 
 function createSparks(card){
-  for(let i=0;i<15;i++){
+  for(let i = 0; i < 15; i++){
     const spark = document.createElement('div');
     spark.className = 'spark';
-    const x = (Math.random()*100-50)+'px';
-    const y = (Math.random()*100-50)+'px';
+    const x = (Math.random() * 100 - 50) + 'px';
+    const y = (Math.random() * 100 - 50) + 'px';
     spark.style.setProperty('--x', x);
     spark.style.setProperty('--y', y);
     card.appendChild(spark);
-    setTimeout(()=>spark.remove(),600);
+    setTimeout(() => spark.remove(), 600);
   }
 }
 
@@ -412,21 +412,20 @@ function oracle(){
     return;
   }
 
-const out = document.getElementById("out");
-out.innerHTML = ""; // очищаем старые карты, но не показываем вопрос
+  const out = document.getElementById("out");
+  out.innerHTML = ""; // очищаем старые карты
 
-  const shuffled = cards.sort(()=>0.5-Math.random());
-  const pick = shuffled.slice(0,3);
+  const shuffled = cards.sort(() => 0.5 - Math.random());
+  const pick = shuffled.slice(0, 3);
 
-  pick.forEach((c,index)=>{
-  const card = document.createElement("div");
-card.className = "card";
+  // Задаём задержки переворота: левый, центр, правый
+  const flipDelays = [2500, 1500, 3000]; 
 
-if (index === 1) {
-  card.classList.add("center"); // центральная
-} else {
-  card.classList.add("side");   // крайние
-}
+  pick.forEach((c, index) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.classList.add(index === 1 ? "center" : "side");
+
     card.innerHTML = `
       <div class="card-inner">
         <div class="card-front"></div>
@@ -436,22 +435,22 @@ if (index === 1) {
         </div>
       </div>
     `;
+
     out.appendChild(card);
-  }
 
-setTimeout(()=>{ 
-  card.classList.add("show"); 
-  createSparks(card);
-}, index*300);
+    // Показ карты и искры
+    setTimeout(() => {
+      card.classList.add("show");
+      createSparks(card);
+    }, index * 300);
 
-const flipDelays = [2500, 1500, 3200];
-
-setTimeout(() => {
-  card.classList.add("flipped");
-}, flipDelays[index]);
-
+    // Переворот карты с индивидуальной задержкой
+    const flipDelay = flipDelays[index];
+    setTimeout(() => {
+      card.classList.add("flipped");
+    }, flipDelay);
+  });
 }
 </script>
-
 </body>
 </html>
