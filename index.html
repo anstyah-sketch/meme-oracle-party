@@ -12,17 +12,16 @@ body {
   background: linear-gradient(180deg, #110022, #330044);
   color: #fff;
   min-height: 100vh;
-  text-align: center; /* Контент по центру */
+  text-align: center;
   overflow-x: hidden;
 }
 
-/* Логотип с магическим свечением */
+/* Логотип */
 .logo-wrapper {
-  margin-top: 0px; /* здесь можно поднимать или опускать логотип */
+  margin-top: 0px;
   position: relative;
   z-index: 2;
 }
-
 .logo {
   width: 320px;
   max-width: 80%;
@@ -33,7 +32,6 @@ body {
     drop-shadow(0 0 25px rgba(155, 48, 255, 0.4));
   animation: logoGlow 3s ease-in-out infinite;
 }
-
 @keyframes logoGlow {
   0% {
     filter:
@@ -52,13 +50,12 @@ body {
   }
 }
 
-/* Контейнер для поля ввода и кнопки */
+/* Поле ввода и кнопка */
 .input-wrapper {
   margin-top: -10px;
   text-align: center;
   z-index: 2;
 }
-
 input[type=text] {
   padding: 12px 20px;
   width: 60%;
@@ -71,11 +68,7 @@ input[type=text] {
   box-shadow: 0 0 10px rgba(155,48,255,0.5);
   text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
-
-input::placeholder {
-  color: #ccc;
-}
-
+input::placeholder { color: #ccc; }
 button {
   display: block;
   margin: 10px auto 0 auto;
@@ -88,7 +81,6 @@ button {
   cursor: pointer;
   transition: background 0.5s, transform 0.2s;
 }
-
 button:hover {
   background: linear-gradient(135deg, #d05cff, #9b30ff, #d05cff);
   transform: scale(1.1);
@@ -114,30 +106,25 @@ button:hover {
   transform: translateY(-50px);
   transition: opacity 0.5s, transform 0.5s;
 }
-
 .card.show {
   opacity: 1;
   transform: translateY(0);
   animation: float 2s ease-in-out infinite alternate;
 }
-
 @keyframes float {
   0% { transform: translateY(-10px); }
   50% { transform: translateY(-15px); }
   100% { transform: translateY(-10px); }
 }
-
 .card-inner {
   position: relative;
   width: 100%;
   transform-style: preserve-3d;
   transition: transform 2s;
 }
-
 .card.flipped .card-inner {
   transform: rotateY(180deg);
 }
-
 .card-front, .card-back {
   position: absolute;
   width: 100%;
@@ -145,7 +132,6 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255,255,255,0.2);
 }
-
 .card-front {
   background: url('https://i.postimg.cc/tRBjxb2v/rubaska.jpg') no-repeat center center;
   background-size: cover;
@@ -153,26 +139,22 @@ button:hover {
   border-radius: 10px;
   animation: glow 2s infinite alternate;
 }
-
 @keyframes glow {
   0% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
   50% { box-shadow: 0 0 25px rgba(255,255,255,0.6); }
   100% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
 }
-
 .card-back {
   transform: rotateY(180deg);
   height: 350px;
   text-align: center;
 }
-
 .card-back img {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 10px;
 }
-
 .prediction {
   display: none;
   position: absolute;
@@ -184,12 +166,11 @@ button:hover {
   border-radius: 5px;
   font-size: 14px;
 }
-
 .card-back:hover .prediction {
   display: block;
 }
 
-/* Эффект мини-искорок */
+/* Эффект искорок */
 .spark {
   position: absolute;
   width: 4px;
@@ -201,7 +182,6 @@ button:hover {
   z-index: 5;
   animation: sparkMove 0.6s ease-out forwards;
 }
-
 @keyframes sparkMove {
   0% { transform: translate(0,0) scale(1); opacity:1; }
   100% { transform: translate(var(--x), var(--y)) scale(0); opacity:0; }
@@ -219,7 +199,6 @@ button:hover {
   opacity: 0.8;
   animation: twinkle 2s infinite alternate;
 }
-
 @keyframes twinkle {
   0% { opacity: 0.4; transform: scale(0.8) translateY(0); }
   100% { opacity: 1; transform: scale(1.1) translateY(20px); }
@@ -229,22 +208,30 @@ button:hover {
   margin-bottom: 15px;
   font-size: 20px;
 }
+
+/* Мобильная версия */
 @media (max-width: 600px) {
   #out {
-    flex-direction: column; /* карты вертикально */
-    align-items: center;    /* по центру */
-    gap: 20px;              /* расстояние между картами */
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
   }
-
   .card {
-    width: 80%;             /* ширина под экран */
+    width: 80%;
     max-width: 300px;
-    transform: none !important; /* убираем translateY из анимации */
-    opacity: 1 !important;      /* делаем сразу видимыми */
-    animation: none !important;  /* убираем float */
+    transform: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .card-front, .card-back {
+    position: relative !important;
+    width: 100%;
+    height: auto !important;
+  }
+  .card-back img {
+    height: auto;
   }
 }
-
 </style>
 </head>
 <body>
@@ -254,7 +241,7 @@ button:hover {
   <img src="https://i.postimg.cc/MTDTr6jc/logo.png" alt="МемОракул" class="logo">
 </div>
 
-<!-- Поле ввода и кнопка в отдельном контейнере -->
+<!-- Поле ввода и кнопка -->
 <div class="input-wrapper">
   <input type="text" id="question" placeholder="Напиши свой вопрос здесь">
   <button onclick="oracle()">Спросить</button>
