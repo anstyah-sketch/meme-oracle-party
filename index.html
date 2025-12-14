@@ -102,26 +102,7 @@ button:hover {
 .card.show {
   opacity: 1;
   transform: translateY(0);
-}
-.card.center .card-inner {
-  transform: scale(0.95);
-}
-
-.card.side .card-inner {
-  transform: scale(0.85);
-}
-
-/* Анимация плавания */
-.card.center.show,
-.card.side.show {
   animation: float 2s ease-in-out infinite alternate;
-}
-.card.center {
-  transform: translateY(0) scale(0.95); /* центральная -5% */
-}
-
-.card.side {
-  transform: translateY(0) scale(0.8);  /* крайние -20% */
 }
 
 @keyframes float {
@@ -264,6 +245,7 @@ button:hover {
   .card.flipped .card-inner {
     transform: rotateY(180deg);
   }
+}
 
 </style>
 </head>
@@ -395,21 +377,20 @@ const cards = [
 {i:"https://i.postimg.cc/2626DMsG/mem70.jpg", t:"Ты не ожидал, но был готов."},
 ];
 
-<script>
 document.getElementById("question").addEventListener("keypress", function(event) {
   if (event.key === "Enter") oracle();
 });
 
 function createSparks(card){
-  for(let i = 0; i < 15; i++){
+  for(let i=0;i<15;i++){
     const spark = document.createElement('div');
     spark.className = 'spark';
-    const x = (Math.random() * 100 - 50) + 'px';
-    const y = (Math.random() * 100 - 50) + 'px';
+    const x = (Math.random()*100-50)+'px';
+    const y = (Math.random()*100-50)+'px';
     spark.style.setProperty('--x', x);
     spark.style.setProperty('--y', y);
     card.appendChild(spark);
-    setTimeout(() => spark.remove(), 600);
+    setTimeout(()=>spark.remove(),600);
   }
 }
 
@@ -420,26 +401,15 @@ function oracle(){
     return;
   }
 
-  const out = document.getElementById("out");
-  out.innerHTML = "";
+const out = document.getElementById("out");
+out.innerHTML = ""; // очищаем старые карты, но не показываем вопрос
 
-  const shuffled = cards.sort(() => 0.5 - Math.random());
-  const pick = shuffled.slice(0, 3);
+  const shuffled = cards.sort(()=>0.5-Math.random());
+  const pick = shuffled.slice(0,3);
 
-  // задержки переворота: центр первый
-  const flipDelays = [2500, 1500, 3000];
-
-  pick.forEach((c, index) => {
+  pick.forEach((c,index)=>{
     const card = document.createElement("div");
     card.className = "card";
-
-    // масштаб: центральная -0.05, крайние -0.2
-if(index === 1){
-  card.classList.add("center"); // центральная карта
-} else {
-  card.classList.add("side");   // крайние карты
-}
-
     card.innerHTML = `
       <div class="card-inner">
         <div class="card-front"></div>
@@ -449,19 +419,14 @@ if(index === 1){
         </div>
       </div>
     `;
-
     out.appendChild(card);
 
-    // показываем карту и искры
-    setTimeout(() => {
-      card.classList.add("show");
+    setTimeout(()=>{ 
+      card.classList.add("show"); 
       createSparks(card);
-    }, index * 300);
+    }, index*300);
 
-    // переворот карты с индивидуальной задержкой
-    setTimeout(() => {
-      card.classList.add("flipped");
-    }, flipDelays[index]);
+    setTimeout(()=>{ card.classList.add("flipped"); }, 2000 + index*700);
   });
 }
 </script>
