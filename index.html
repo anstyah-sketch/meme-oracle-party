@@ -101,8 +101,7 @@ button:hover {
 
 .card.show {
   opacity: 1;
-  transform: translateY(0) scale(0.85);
-  animation: float 2s ease-in-out infinite alternate;
+  transform: translateY(0);
 }
 
 @keyframes float {
@@ -245,6 +244,20 @@ button:hover {
   .card.flipped .card-inner {
     transform: rotateY(180deg);
   }
+/* Центральная карта — минус 5% */
+.card.center {
+  transform: translateY(0) scale(0.95);
+}
+
+/* Крайние карты — минус 15% */
+.card.side {
+  transform: translateY(0) scale(0.85);
+}
+
+/* Возвращаем анимацию плавания */
+.card.center.show,
+.card.side.show {
+  animation: float 2s ease-in-out infinite alternate;
 }
 
 </style>
@@ -408,8 +421,14 @@ out.innerHTML = ""; // очищаем старые карты, но не пок�
   const pick = shuffled.slice(0,3);
 
   pick.forEach((c,index)=>{
-    const card = document.createElement("div");
-    card.className = "card";
+  const card = document.createElement("div");
+card.className = "card";
+
+if (index === 1) {
+  card.classList.add("center"); // центральная
+} else {
+  card.classList.add("side");   // крайние
+}
     card.innerHTML = `
       <div class="card-inner">
         <div class="card-front"></div>
