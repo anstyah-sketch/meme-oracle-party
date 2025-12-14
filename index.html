@@ -437,28 +437,19 @@ if (index === 1) {
       </div>
     `;
     out.appendChild(card);
+  }
 
-    setTimeout(()=>{ 
-      card.classList.add("show"); 
-      createSparks(card);
-    }, index*300);
-let flipDelay;
+setTimeout(()=>{ 
+  card.classList.add("show"); 
+  createSparks(card);
+}, index*300);
 
-if (index === 1) {
-  flipDelay = 1500; // центр — первый
-} else if (index === 0) {
-  flipDelay = 2500; // левый
-} else {
-  flipDelay = 3000; // правый
-}
+const flipDelays = [2500, 1500, 3200];
 
-    setTimeout(()=>{ 
-      card.classList.add("show"); 
-      createSparks(card);
-    }, index*300);
+setTimeout(() => {
+  card.classList.add("flipped");
+}, flipDelays[index]);
 
-    setTimeout(()=>{ card.classList.add("flipped"); }, 2000 + index*700);
-  });
 }
 </script>
 
