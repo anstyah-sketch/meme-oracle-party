@@ -11,29 +11,58 @@ body {
   font-family: Arial, sans-serif;
   background: linear-gradient(180deg, #110022, #330044);
   color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   min-height: 100vh;
+  text-align: center; /* Контент по центру */
   overflow-x: hidden;
 }
 
-.magic {
-  display: inline-block;
-  animation: pulse 2s infinite;
+/* Логотип с магическим свечением */
+.logo-wrapper {
+  margin-top: 30px; /* здесь можно поднимать или опускать логотип */
+  position: relative;
+  z-index: 2;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.7; }
+.logo {
+  width: 320px;
+  max-width: 80%;
+  display: block;
+  margin: 0 auto;
+  filter:
+    drop-shadow(0 0 10px rgba(155, 48, 255, 0.6))
+    drop-shadow(0 0 25px rgba(155, 48, 255, 0.4));
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+  0% {
+    filter:
+      drop-shadow(0 0 8px rgba(155, 48, 255, 0.4))
+      drop-shadow(0 0 20px rgba(155, 48, 255, 0.3));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 18px rgba(208, 92, 255, 0.8))
+      drop-shadow(0 0 40px rgba(208, 92, 255, 0.5));
+  }
+  100% {
+    filter:
+      drop-shadow(0 0 8px rgba(155, 48, 255, 0.4))
+      drop-shadow(0 0 20px rgba(155, 48, 255, 0.3));
+  }
+}
+
+/* Контейнер для поля ввода и кнопки */
+.input-wrapper {
+  margin-top: 20px;
+  text-align: center;
+  z-index: 2;
 }
 
 input[type=text] {
   padding: 12px 20px;
   width: 60%;
   max-width: 400px;
-  margin: -20px 0;
   border-radius: 15px;
   border: 2px solid #9b30ff;
   font-size: 18px;
@@ -47,26 +76,27 @@ input::placeholder {
   color: #ccc;
 }
 
-/* Мерцающие звёзды */
-.star {
-  position: fixed;
-  z-index: 0;
-  pointer-events: none;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: white;
-  opacity: 0.8;
-  animation: twinkle 2s infinite alternate;
+button {
+  display: block;
+  margin: 10px auto 0 auto;
+  padding: 12px 30px;
+  font-size: 20px;
+  background: linear-gradient(135deg, #9b30ff, #d05cff, #9b30ff);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.5s, transform 0.2s;
 }
 
-@keyframes twinkle {
-  0% { opacity: 0.4; transform: scale(0.8) translateY(0); }
-  100% { opacity: 1; transform: scale(1.1) translateY(20px); }
+button:hover {
+  background: linear-gradient(135deg, #d05cff, #9b30ff, #d05cff);
+  transform: scale(1.1);
 }
 
+/* Контейнер для карт */
 #out {
-  margin-top: -10px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   gap: 30px;
@@ -75,6 +105,7 @@ input::placeholder {
   position: relative;
 }
 
+/* Карты */
 .card {
   width: 250px;
   perspective: 1000px;
@@ -158,30 +189,6 @@ input::placeholder {
   display: block;
 }
 
-/* Кнопка «Спросить» */
-button {
-  display: block;
-  margin: 5px auto 60px auto;
-  padding: 12px 30px;
-  font-size: 20px;
-  background: linear-gradient(135deg, #9b30ff, #d05cff, #9b30ff);
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.5s, transform 0.2s;
-}
-
-button:hover {
-  background: linear-gradient(135deg, #d05cff, #9b30ff, #d05cff);
-  transform: scale(1.1);
-}
-
-.question-text {
-  margin-bottom: 15px;
-  font-size: 20px;
-}
-
 /* Эффект мини-искорок */
 .spark {
   position: absolute;
@@ -200,51 +207,44 @@ button:hover {
   100% { transform: translate(var(--x), var(--y)) scale(0); opacity:0; }
 }
 
-.logo-wrapper {
-  margin-top: 15px;
-  position: relative;
-  z-index: 2;
+/* Мерцающие звёзды */
+.star {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0.8;
+  animation: twinkle 2s infinite alternate;
 }
 
-.logo {
-  width: 320px;
-  max-width: 80%;
-  display: block;
-  margin: 0 auto;
-  filter:
-    drop-shadow(0 0 10px rgba(155, 48, 255, 0.6))
-    drop-shadow(0 0 25px rgba(155, 48, 255, 0.4));
-  animation: logoGlow 3s ease-in-out infinite;
+@keyframes twinkle {
+  0% { opacity: 0.4; transform: scale(0.8) translateY(0); }
+  100% { opacity: 1; transform: scale(1.1) translateY(20px); }
 }
 
-@keyframes logoGlow {
-  0% {
-    filter:
-      drop-shadow(0 0 8px rgba(155, 48, 255, 0.4))
-      drop-shadow(0 0 20px rgba(155, 48, 255, 0.3));
-  }
-  50% {
-    filter:
-      drop-shadow(0 0 18px rgba(208, 92, 255, 0.8))
-      drop-shadow(0 0 40px rgba(208, 92, 255, 0.5));
-  }
-  100% {
-    filter:
-      drop-shadow(0 0 8px rgba(155, 48, 255, 0.4))
-      drop-shadow(0 0 20px rgba(155, 48, 255, 0.3));
-  }
+.question-text {
+  margin-bottom: 15px;
+  font-size: 20px;
 }
 </style>
 </head>
 <body>
 
+<!-- Логотип -->
 <div class="logo-wrapper">
   <img src="https://i.postimg.cc/MTDTr6jc/logo.png" alt="МемОракул" class="logo">
 </div>
 
-<!-- ДОБАВЛЕНЫ ПОЛЕ ВВОДА, КНОПКА И КОНТЕЙНЕР ДЛЯ КАРТ -->
-<input type="text" id="question" placeholder="Напиши свой вопрос здесь">
-<button onclick="oracle()">Спросить</button>
+<!-- Поле ввода и кнопка в отдельном контейнере -->
+<div class="input-wrapper">
+  <input type="text" id="question" placeholder="Напиши свой вопрос здесь">
+  <button onclick="oracle()">Спросить</button>
+</div>
+
+<!-- Контейнер для карт -->
 <div id="out"></div>
 
 <script>
