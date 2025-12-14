@@ -230,10 +230,10 @@ button:hover {
   font-size: 20px;
 }
 
-/* Мобильная версия: карты вертикально, рубашки видны */
+/* Мобильная версия: вертикальные карты с видимой рубашкой */
 @media (max-width: 600px) {
   #out {
-    flex-direction: column; /* карты вертикально */
+    flex-direction: column;
     align-items: center;
     gap: 20px;
   }
@@ -241,21 +241,22 @@ button:hover {
   .card {
     width: 80%;
     max-width: 300px;
-    opacity: 1 !important;
     animation: none !important;
     transform: none !important;
-    perspective: none; /* убираем 3D перспективу */
+    opacity: 1 !important;
+    perspective: none;
+    display: block;
   }
 
   .card-inner {
-    transform: none !important; /* убираем поворот */
+    transform: none !important;
   }
 
   .card.show {
-    transform: none !important; /* убираем float */
+    transform: none !important;
   }
 
-  /* Убираем абсолютное позиционирование, чтобы рубашка и лицо карты были в потоке */
+  /* Переводим фронт и бек карты в нормальный поток */
   .card-front,
   .card-back {
     position: relative;
@@ -267,7 +268,6 @@ button:hover {
   .card-back img {
     width: 100%;
     height: auto;
-    display: block;
   }
 
   .card-back .prediction {
@@ -278,24 +278,19 @@ button:hover {
     margin-top: 5px;
   }
 }
-
-}
 </style>
 </head>
 <body>
 
-<!-- Логотип -->
 <div class="logo-wrapper">
   <img src="https://i.postimg.cc/MTDTr6jc/logo.png" alt="МемОракул" class="logo">
 </div>
 
-<!-- Поле ввода и кнопка -->
 <div class="input-wrapper">
   <input type="text" id="question" placeholder="Напиши свой вопрос здесь">
   <button onclick="oracle()">Спросить</button>
 </div>
 
-<!-- Контейнер для карт -->
 <div id="out"></div>
 
 <script>
