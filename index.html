@@ -220,10 +220,10 @@ button:hover {
   .card {
     width: 80%;             
     max-width: 300px;
-    transform: none !important; 
-    opacity: 1 !important;      
-    animation: none !important;  
+    /* Не трогаем transform и opacity, чтобы рубашки были видны */
+    animation: none !important;  /* отключаем только float-анимацию */
   }
+
 }
   .card-front, .card-back {
     position: relative !important;
