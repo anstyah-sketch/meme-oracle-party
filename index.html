@@ -219,7 +219,7 @@ button:hover {
   .card {
     width: 90%;
     max-width: 300px;
-    perspective: 1000px; /* сохраняем переворот */
+    perspective: 1000px;
     margin-bottom: 20px;
   }
 
@@ -229,10 +229,16 @@ button:hover {
 
   .card-front,
   .card-back {
-    position: absolute; /* сохраняем фон рубашки */
+    position: relative; /* убираем absolute, чтобы карты не накладывались */
     width: 100%;
-    height: 350px; /* фиксированная высота для рубашки */
+    min-height: 350px; /* сохраняем высоту рубашки */
     border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .card-front {
+    background: url('https://i.postimg.cc/tRBjxb2v/rubaska.jpg') no-repeat center center;
+    background-size: cover;
   }
 
   .card-back img {
@@ -240,14 +246,16 @@ button:hover {
     height: auto;
   }
 
-  .card-back .prediction {
-    bottom: 10px;
-    width: 90%;
-    left: 5%;
-    position: absolute;
+  .card.show {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .card.flipped .card-inner {
+    transform: rotateY(180deg) !important;
   }
 }
-
 
 </style>
 </head>
