@@ -204,14 +204,47 @@ button:hover {
   0% { transform: translate(0,0) scale(1); opacity:1; }
   100% { transform: translate(var(--x), var(--y)) scale(0); opacity:0; }
 }
+  .logo-wrapper {
+  margin-top: 30px;
+  z-index: 2;
+}
+
+.logo {
+  width: 320px;
+  max-width: 80%;
+  display: block;
+  margin: 0 auto;
+  filter:
+    drop-shadow(0 0 10px rgba(155, 48, 255, 0.6))
+    drop-shadow(0 0 25px rgba(155, 48, 255, 0.4));
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+  0% {
+    filter:
+      drop-shadow(0 0 8px rgba(155, 48, 255, 0.4))
+      drop-shadow(0 0 20px rgba(155, 48, 255, 0.3));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 18px rgba(208, 92, 255, 0.8))
+      drop-shadow(0 0 40px rgba(208, 92, 255, 0.5));
+  }
+  100% {
+    filter:
+      drop-shadow(0 0 8px rgba(155, 48, 255, 0.4))
+      drop-shadow(0 0 20px rgba(155, 48, 255, 0.3));
+  }
+}
+
 </style>
 </head>
 <body>
 
-<h1><span class="magic">🔮</span> МемОракул</h1>
-<input type="text" id="question" placeholder="Напиши свой вопрос здесь">
-<button onclick="oracle()">Спросить</button>
-<div id="out"></div>
+<div class="logo-wrapper">
+  <img src="https://i.postimg.cc/MTDTr6jc/logo.png" alt="МемОракул" class="logo">
+</div>
 
 <script>
 // Звёзды на фоне
