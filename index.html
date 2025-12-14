@@ -442,10 +442,20 @@ if (index === 1) {
       card.classList.add("show"); 
       createSparks(card);
     }, index*300);
+let flipDelay;
 
-    setTimeout(()=>{ card.classList.add("flipped"); }, 2000 + index*700);
-  });
+if (index === 1) {
+  flipDelay = 1500; // центр — первый
+} else if (index === 0) {
+  flipDelay = 2500; // левый
+} else {
+  flipDelay = 3000; // правый
 }
+
+setTimeout(() => {
+  card.classList.add("flipped");
+}, flipDelay);
+
 </script>
 
 </body>
