@@ -95,13 +95,13 @@ button:hover {
   perspective: 1000px;
   display: inline-block;
   opacity: 0;
-  transform: translateY(-50px);
+  transform: translateY(-50px) scale(0.85);
   transition: opacity 0.5s, transform 0.5s;
 }
 
 .card.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(0.85);
   animation: float 2s ease-in-out infinite alternate;
 }
 
