@@ -241,10 +241,30 @@ button:hover {
   .card {
     width: 80%;
     max-width: 300px;
-    /* оставляем transform для рубашки и card-inner */
-    /* opacity и background сохраняем */
-    animation: none !important; /* отключаем float-анимацию */
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    perspective: none; /* убираем перспективу, чтобы переворот не ломал высоту */
   }
+
+  .card-inner {
+    position: relative; /* чтобы внутренние стороны учитывали высоту */
+    transform: none !important; /* убираем вращение */
+  }
+
+  .card-front,
+  .card-back {
+    position: relative !important; /* важно для вертикального стека */
+    width: 100%;
+    height: auto; /* подстраивается под контент */
+  }
+
+  .card-back img {
+    width: 100%;
+    height: auto;
+  }
+}
+  
 }
 </style>
 </head>
