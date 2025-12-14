@@ -229,18 +229,22 @@ button:hover {
   margin-bottom: 15px;
   font-size: 20px;
 }
-    @media (max-width: 600px) {
-    #out {
-      flex-direction: column; /* карты идут вертикально */
-      align-items: center;    /* по центру */
-      gap: 20px;              /* расстояние между картами */
-    }
-
-    .card {
-      width: 80%;             /* карты шире, под экран */
-      max-width: 300px;
-    }
+@media (max-width: 600px) {
+  #out {
+    flex-direction: column; /* карты вертикально */
+    align-items: center;    /* по центру */
+    gap: 20px;              /* расстояние между картами */
   }
+
+  .card {
+    width: 80%;             /* ширина под экран */
+    max-width: 300px;
+    transform: none !important; /* убираем translateY из анимации */
+    opacity: 1 !important;      /* делаем сразу видимыми */
+    animation: none !important;  /* убираем float */
+  }
+}
+
 </style>
 </head>
 <body>
