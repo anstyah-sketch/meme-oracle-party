@@ -78,6 +78,7 @@ button:hover {
   transform: scale(1.1);
 }
 
+/* Контейнер карт */
 #out {
   margin-top: 20px;
   display: flex;
@@ -88,6 +89,7 @@ button:hover {
   z-index: 1;
 }
 
+/* Карта */
 .card {
   width: 250px;
   perspective: 1000px;
@@ -99,14 +101,21 @@ button:hover {
 
 .card.show {
   opacity: 1;
+  transform: translateY(0);
   animation: float 2s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  0% { transform: translateY(-10px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(-10px); }
 }
 
 .card-inner {
   position: relative;
   width: 100%;
   transform-style: preserve-3d;
-  transition: transform 1.5s;
+  transition: transform 2s;
 }
 
 .card.flipped .card-inner {
@@ -125,6 +134,13 @@ button:hover {
 .card-front {
   background: url('https://i.postimg.cc/3wnmb4b4/rubaska.png') no-repeat center center;
   background-size: cover;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+  50% { box-shadow: 0 0 25px rgba(255,255,255,0.6); }
+  100% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
 }
 
 .card-back {
@@ -155,6 +171,7 @@ button:hover {
   display: block;
 }
 
+/* Эффект искр */
 .spark {
   position: absolute;
   width: 4px;
@@ -164,7 +181,7 @@ button:hover {
   pointer-events: none;
   opacity: 0.8;
   z-index: 5;
-  animation: sparkMove 0.6s ease-out forwards;
+  animation: sparkMove 0.8s ease-out forwards;
 }
 
 @keyframes sparkMove {
@@ -189,31 +206,44 @@ button:hover {
   100% { opacity: 1; transform: scale(1.1) translateY(20px); }
 }
 
+.question-text { margin-bottom: 15px; font-size: 20px; }
+
 @media (max-width: 600px) {
   #out {
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
+
   .card {
     width: 90%;
     max-width: 300px;
+    perspective: 1000px;
     margin-bottom: 0;
   }
+
   .card-inner {
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.8s;
   }
-  .card-front, .card-back {
+
+  .card-front,
+  .card-back {
     position: relative;
     width: 100%;
     min-height: 350px;
     border-radius: 10px;
     backface-visibility: hidden;
   }
-  .card-back { transform: rotateY(180deg); }
-  .card.flipped .card-inner { transform: rotateY(180deg); }
+
+  .card-back {
+    transform: rotateY(180deg);
+  }
+
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
 }
 </style>
 </head>
@@ -232,14 +262,15 @@ button:hover {
 
 <script>
 window.addEventListener('load', () => {
-  for(let i=0;i<300;i++){
+  const numStars = 200;
+  for(let i=0;i<numStars;i++){
     const star = document.createElement('div');
     star.className = 'star';
-    const size=Math.random()*2+1;
-    star.style.width=star.style.height=size+'px';
-    star.style.top=Math.random()*window.innerHeight+'px';
-    star.style.left=Math.random()*window.innerWidth+'px';
-    star.style.animationDuration=(Math.random()*3+1)+'s';
+    const size = Math.random()*3+1;
+    star.style.width = star.style.height = size+'px';
+    star.style.top = Math.random() * window.innerHeight + 'px';
+    star.style.left = Math.random() * window.innerWidth + 'px';
+    star.style.animationDuration = (Math.random()*3+1)+'s';
     document.body.appendChild(star);
   }
 });
@@ -344,40 +375,48 @@ const cards = [
 {i:"https://i.postimg.cc/2626DMsG/mem70.jpg", t:"Ты не ожидал, но был готов."},
 ];
 
-document.getElementById("question").addEventListener("keypress", e=>{ if(e.key==="Enter") oracle(); });
+document.getElementById("question").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") oracle();
+});
 
 function createSparks(card){
-  for(let i=0;i<15;i++){
-    const spark=document.createElement('div');
-    spark.className='spark';
-    spark.style.setProperty('--x',(Math.random()*100-50)+'px');
-    spark.style.setProperty('--y',(Math.random()*100-50)+'px');
+  for(let i=0;i<25;i++){ // увеличено количество искр
+    const spark = document.createElement('div');
+    spark.className = 'spark';
+    const x = (Math.random()*200-100)+'px'; // диапазон разлета
+    const y = (Math.random()*200-100)+'px';
+    spark.style.setProperty('--x', x);
+    spark.style.setProperty('--y', y);
     card.appendChild(spark);
-    setTimeout(()=>spark.remove(),600);
+    setTimeout(()=>spark.remove(),800);
   }
 }
 
 function oracle(){
-  const question=document.getElementById("question").value;
+  const question = document.getElementById("question").value;
   if(!question){ alert("Сначала напиши вопрос!"); return; }
 
-  const out=document.getElementById("out");
-  out.innerHTML="";
+  const out = document.getElementById("out");
+  out.innerHTML = "";
 
-  const shuffled=cards.sort(()=>0.5-Math.random());
-  const pick=shuffled.slice(0,3);
+  const shuffled = cards.sort(()=>0.5-Math.random());
+  const pick = shuffled.slice(0,3);
 
-  const scales = [0.8,0.95,0.8]; // левый, центр, правый
+  // массив для порядка переворота: центр, затем крайние вместе
+  const flipDelays = [1500, 2500, 2500]; 
 
   pick.forEach((c,index)=>{
-    const card=document.createElement("div");
-    card.className="card";
-    card.style.transform=`scale(${scales[index]})`;
+    const card = document.createElement("div");
+    card.className = "card";
 
-    if(index===1) card.classList.add("center");
-    else card.classList.add("side");
+    // размер карт: центральная меньше на 5%, крайние на 20%
+    if(index === 1){
+      card.style.transform = "scale(0.95)";
+    } else {
+      card.style.transform = "scale(0.8)";
+    }
 
-    card.innerHTML=`
+    card.innerHTML = `
       <div class="card-inner">
         <div class="card-front"></div>
         <div class="card-back">
@@ -388,26 +427,18 @@ function oracle(){
     `;
     out.appendChild(card);
 
+    // показываем карту и легкие искры
     setTimeout(()=>{
       card.classList.add("show");
-      createSparks(card);
-    }, index*200);
+      createSparks(card); 
+    }, index*300);
 
+    // переворот с эффектом искр для центральной карты
+    setTimeout(()=>{
+      card.classList.add("flipped");
+      if(index === 1) createSparks(card);
+    }, flipDelays[index]);
   });
-
-  // Переворот: сначала центральная
-  setTimeout(()=>{
-    pick.forEach((c,index)=>{
-      if(index===1) out.children[index].classList.add("flipped");
-    });
-  }, 1000);
-
-  // Через 700мс после центральной переворачиваем крайние карты
-  setTimeout(()=>{
-    pick.forEach((c,index)=>{
-      if(index!==1) out.children[index].classList.add("flipped");
-    });
-  }, 1700);
 }
 </script>
 
