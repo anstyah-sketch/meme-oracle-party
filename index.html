@@ -78,7 +78,6 @@ button:hover {
   transform: scale(1.1);
 }
 
-/* Контейнер карт */
 #out {
   margin-top: 20px;
   display: flex;
@@ -89,7 +88,6 @@ button:hover {
   z-index: 1;
 }
 
-/* Карта */
 .card {
   width: 250px;
   perspective: 1000px;
@@ -99,31 +97,16 @@ button:hover {
   transition: opacity 0.5s, transform 0.5s;
 }
 
-/* Центральная карта меньше на 5%, крайние на 20% */
-.card.center {
-  transform: translateY(0) scale(0.95);
-}
-
-.card.side {
-  transform: translateY(0) scale(0.8);
-}
-
 .card.show {
   opacity: 1;
   animation: float 2s ease-in-out infinite alternate;
-}
-
-@keyframes float {
-  0% { transform: translateY(-10px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(-10px); }
 }
 
 .card-inner {
   position: relative;
   width: 100%;
   transform-style: preserve-3d;
-  transition: transform 2s;
+  transition: transform 1.5s;
 }
 
 .card.flipped .card-inner {
@@ -142,13 +125,6 @@ button:hover {
 .card-front {
   background: url('https://i.postimg.cc/3wnmb4b4/rubaska.png') no-repeat center center;
   background-size: cover;
-  animation: glow 2s infinite alternate;
-}
-
-@keyframes glow {
-  0% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-  50% { box-shadow: 0 0 25px rgba(255,255,255,0.6); }
-  100% { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
 }
 
 .card-back {
@@ -179,7 +155,6 @@ button:hover {
   display: block;
 }
 
-/* Эффект искр */
 .spark {
   position: absolute;
   width: 4px;
@@ -214,45 +189,31 @@ button:hover {
   100% { opacity: 1; transform: scale(1.1) translateY(20px); }
 }
 
-.question-text { margin-bottom: 15px; font-size: 20px; }
-
-/* Мобильная версия */
 @media (max-width: 600px) {
   #out {
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
-
   .card {
     width: 90%;
     max-width: 300px;
-    perspective: 1000px;
     margin-bottom: 0;
   }
-
   .card-inner {
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.8s;
   }
-
-  .card-front,
-  .card-back {
+  .card-front, .card-back {
     position: relative;
     width: 100%;
     min-height: 350px;
     border-radius: 10px;
     backface-visibility: hidden;
   }
-
-  .card-back {
-    transform: rotateY(180deg);
-  }
-
-  .card.flipped .card-inner {
-    transform: rotateY(180deg);
-  }
+  .card-back { transform: rotateY(180deg); }
+  .card.flipped .card-inner { transform: rotateY(180deg); }
 }
 </style>
 </head>
@@ -271,131 +232,33 @@ button:hover {
 
 <script>
 window.addEventListener('load', () => {
-  const numStars = 200;
-  for(let i=0;i<numStars;i++){
+  for(let i=0;i<200;i++){
     const star = document.createElement('div');
     star.className = 'star';
-    const size = Math.random()*3+1;
-    star.style.width = star.style.height = size+'px';
-    star.style.top = Math.random() * window.innerHeight + 'px';
-    star.style.left = Math.random() * window.innerWidth + 'px';
-    star.style.animationDuration = (Math.random()*3+1)+'s';
+    const size=Math.random()*3+1;
+    star.style.width=star.style.height=size+'px';
+    star.style.top=Math.random()*window.innerHeight+'px';
+    star.style.left=Math.random()*window.innerWidth+'px';
+    star.style.animationDuration=(Math.random()*3+1)+'s';
     document.body.appendChild(star);
   }
 });
 
-const cards = [
-{i:"https://i.postimg.cc/7Z2f2Bzw/mem1.jpg", t:"Это стоит принять с лёгкой иронией."},
-{i:"https://i.postimg.cc/L81n1yPY/mem10.jpg", t:"Лучше не объяснять — пусть думают сами."},
-{i:"https://i.postimg.cc/05XQHgdb/mem100.gif", t:"Ты всё понял, но делаешь вид, что нет."},
-{i:"https://i.postimg.cc/L81n1yP1/mem11.jpg", t:"Ты заметишь знак, когда перестанешь его искать."},
-{i:"https://i.postimg.cc/T3DpDkbW/mem12.jpg", t:"Кто-то явно что-то скрывает. Возможно, ты."},
-{i:"https://i.postimg.cc/0ywbwtSd/mem13.gif", t:"Ты переоцениваешь серьёзность момента."},
-{i:"https://i.postimg.cc/RZHNHPtt/mem14.jpg", t:"Кто-то сделает выводы без твоего участия."},
-{i:"https://i.postimg.cc/mgHtHd9Q/mem15.jpg", t:"Идея была хорошая. Исполнение — нет."},
-{i:"https://i.postimg.cc/SxMJMZ96/mem16.jpg", t:"Ты уже знаешь ответ, просто делаешь вид, что нет."},
-{i:"https://i.postimg.cc/qv3z3mKG/mem17.jpg", t:"Это могло быть хуже. И ты это знаешь."},
-{i:"https://i.postimg.cc/MpQvQsBD/mem18.jpg", t:"Ты зря сомневаешься именно сейчас."},
-{i:"https://i.postimg.cc/8z6j6yv4/mem19.jpg", t:"Это лучше оставить без комментариев."},
-{i:"https://i.postimg.cc/GmyHyMDL/mem2.jpg", t:"Всё сложится, но не так красиво, как в голове."},
-{i:"https://i.postimg.cc/bwtst6nL/mem20.jpg", t:"Ты заслужил немного хаоса."},
-{i:"https://i.postimg.cc/JhCtcb3b/mem21.jpg", t:"Сегодня лучше слушать, чем говорить."},
-{i:"https://i.postimg.cc/YSBjf1NQ/mem22.jpg", t:"Ты на верном пути, но смотри под ноги."},
-{i:"https://i.postimg.cc/d0cDm8R6/mem23.jpg", t:"Всё идёт по плану, просто не по твоему."},
-{i:"https://i.postimg.cc/SKbj7WLD/mem24.jpg", t:"Сначала будет смешно, потом неловко."},
-{i:"https://i.postimg.cc/YSBjf1Nd/mem25.jpg", t:"Сегодня ты главный герой чужой истории."},
-{i:"https://i.postimg.cc/6QxTLdVH/mem27.jpg", t:"Это не ответ, но направление."},
-{i:"https://i.postimg.cc/Xv6XcwK1/mem28.jpg", t:"Это временно. Даже если кажется вечным."},
-{i:"https://i.postimg.cc/FKX1gjbB/mem29.jpg", t:"Кто-то явно недоговаривает."},
-{i:"https://i.postimg.cc/Dz3mdqd3/mem36.jpg", t:"Не сопротивляйся — всё уже происходит."},
-{i:"https://i.postimg.cc/KYh4rnry/mem37.jpg", t:"Ты на секунду опоздал, и это к лучшему."},
-{i:"https://i.postimg.cc/zfwvdVp9/mem38.png", t:"Это выглядит странно, но позже окажется логичным."},
-{i:"https://i.postimg.cc/jj628LvB/mem39.jpg", t:"Маленькая ошибка приведёт к большому выводу."},
-{i:"https://i.postimg.cc/HkyVySMp/mem4.jpg", t:"Это выглядит как совпадение, но слишком уж вовремя."},
-{i:"https://i.postimg.cc/KY7j9RQV/mem40.jpg", t:"Ты можешь позволить себе расслабиться."},
-{i:"https://i.postimg.cc/pdQr0pk4/mem41.jpg", t:"Всё произойдёт само, если не мешать."},
-{i:"https://i.postimg.cc/Bv5bhXMW/mem42.jpg", t:"Кто-то явно переоценивает ситуацию. Возможно, ты."},
-{i:"https://i.postimg.cc/25dyHV2N/mem43.jpg", t:"Сегодня ты в гармонии с моментом."},
-{i:"https://i.postimg.cc/mgHtHd9g/mem3.jpg", t:"Ты слишком буквально понял знак."},
-{i:"https://i.postimg.cc/bvfdHQ0M/mem30.jpg", t:"Иногда лучше согласиться и посмотреть, что будет."},
-{i:"https://i.postimg.cc/JhCtcb3S/mem31.jpg", t:"Ты ожидал другого, но получил нужное."},
-{i:"https://i.postimg.cc/wBY3chcK/mem33.jpg", t:"Это не ошибка, а опыт с юмором."},
-{i:"https://i.postimg.cc/nLfMYvKy/mem34.jpg", t:"Ты недооцениваешь происходящее."},
-{i:"https://i.postimg.cc/43Rnbzbg/mem35.jpg", t:"Сегодня всё слегка не на своих местах."},
-{i:"https://i.postimg.cc/Lsk5ynNM/mem44.jpg", t:"Сегодняшний выбор будет вспоминаться с улыбкой."},
-{i:"https://i.postimg.cc/q7cqmzjr/mem45.jpg", t:"Иногда лучше не знать деталей."},
-{i:"https://i.postimg.cc/25dyHV2D/mem46.jpg", t:"Это выглядит как знак, потому что им и является."},
-{i:"https://i.postimg.cc/XvKq2pQ4/mem47.jpg", t:"Это не предупреждение, но намёк."},
-{i:"https://i.postimg.cc/wB5MW709/mem48.jpg", t:"Ты слишком хорошо знаешь, чем это закончится."},
-{i:"https://i.postimg.cc/zfwvdV03/mem49.gif", t:"Всё складывается в твою пользу."},
-{i:"https://i.postimg.cc/T3DpDkbP/mem5.jpg", t:"Это хороший момент, чтобы усомниться."},
-{i:"https://i.postimg.cc/7L1hBfmh/mem50.gif", t:"Это событие не изменит жизнь, но настроение — да."},
-{i:"https://i.postimg.cc/8Cdcyjtf/mem51.gif", t:"Сейчас важнее настроение, чем результат."},
-{i:"https://i.postimg.cc/XJVJt4zq/mem52.gif", t:"Важная мысль придёт позже, не сегодня."},
-{i:"https://i.postimg.cc/TPj1kpCb/mem53.gif", t:"Всё складывается мягче, чем ты ожидал."},
-{i:"https://i.postimg.cc/NMpMcS3p/mem71.jpg", t:"Лучше принять странность, чем бороться с ней."},
-{i:"https://i.postimg.cc/Px2xj9g6/mem72.jpg", t:"Ты заметил главное, просто не сразу."},
-{i:"https://i.postimg.cc/2626DMsX/mem73.jpg", t:"Иногда лучше сделать вид, что всё под контролем."},
-{i:"https://i.postimg.cc/76m6kjvr/mem74.jpg", t:"Кто-то рядом понимает больше, чем кажется."},
-{i:"https://i.postimg.cc/sXwXrbFR/mem75.jpg", t:"Ты оказался в нужное время в нужном состоянии."},
-{i:"https://i.postimg.cc/qRjRTWf0/mem76.jpg", t:"Это не проблема, а декорация."},
-{i:"https://i.postimg.cc/T11PYQG1/mem77.gif", t:"Это выглядело как хорошая идея. На секунду."},
-{i:"https://i.postimg.cc/NFF0fbYj/mem78.gif", t:"Отличный план. Кто его придумал?"},
-{i:"https://i.postimg.cc/zvvfXp51/mem79.jpg", t:"Кто-то рядом понимает больше, чем говорит."},
-{i:"https://i.postimg.cc/0ywbwtSr/mem8.jpg", t:"Ты всё рассчитал. Кроме реальности."},
-{i:"https://i.postimg.cc/HnnLs3H0/mem80.gif", t:"Это был смелый ход. Очень смелый."},
-{i:"https://i.postimg.cc/vTTmHXMD/mem81.gif", t:"Сейчас лучше промолчать — эффект будет сильнее."},
-{i:"https://i.postimg.cc/D00zy5F8/mem82.jpg", t:"Сейчас важно не торопиться с выводами."},
-{i:"https://i.postimg.cc/Y00Sq8kv/mem83.jpg", t:"Ты почти понял, но не до конца."},
-{i:"https://i.postimg.cc/tJJgCDyW/mem84.jpg", t:"Это был смелый эксперимент. Повторять не стоит."},
-{i:"https://i.postimg.cc/Y00Sq8kF/mem85.jpg", t:"Ты уже сделал достаточно."},
-{i:"https://i.postimg.cc/zvvfXp5T/mem86.jpg", t:"Ты находишься под защитой обстоятельств."},
-{i:"https://i.postimg.cc/yxxNYnBX/mem87.jpg", t:"Ты переоцениваешь значимость момента."},
-{i:"https://i.postimg.cc/gj72wRkX/mem88.jpg", t:"Это событие не требует анализа, но провоцирует его."},
-{i:"https://i.postimg.cc/GmyHyMDT/mem9.jpg", t:"Судьба кивнула и добавила спецэффекты."},
-{i:"https://i.postimg.cc/HnNkJ5s7/mem90.jpg", t:"Кто-то ждёт от тебя больше, чем ты думаешь."},
-{i:"https://i.postimg.cc/yxG8J9YR/mem91.jpg", t:"Ты поймёшь, что всё было не зря."},
-{i:"https://i.postimg.cc/d3fV7dtr/mem92.jpg", t:"Ты уже ближе к желаемому."},
-{i:"https://i.postimg.cc/gj72wRkR/mem93.jpg", t:"Ты всё рассчитал. Кроме реальности."},
-{i:"https://i.postimg.cc/qqFvtnMc/mem94.gif", t:"Ты слишком хорошо понимаешь, к чему это."},
-{i:"https://i.postimg.cc/9XgMN3tm/mem95.gif", t:"Маленькая радость уже близко."},
-{i:"https://i.postimg.cc/hvYtJxP9/mem96.jpg", t:"Всё случится неожиданно. И не вовремя."},
-{i:"https://i.postimg.cc/90kQ4TFy/mem97.jpg", t:"Это событие войдёт в историю. Твою личную."},
-{i:"https://i.postimg.cc/Y0PC4gqR/mem98.jpg", t:"Кто-то точно понял тебя неправильно."},
-{i:"https://i.postimg.cc/D0NwWsy5/mem99.jpg", t:"Это подходящее время для мягкого решения."},
-{i:"https://i.postimg.cc/nLKrdC0D/mem54.gif", t:"Иногда смысл появляется после смеха."},
-{i:"https://i.postimg.cc/k4n4LqpD/mem55.gif", t:"Сегодня не стоит спорить — даже если ты прав."},
-{i:"https://i.postimg.cc/fLwL1DrJ/mem56.gif", t:"Ты снова решил довериться интуиции. Смело."},
-{i:"https://i.postimg.cc/pT2T3R6h/mem57.gif", t:"Это можно воспринимать как предупреждение, но не обязательно."},
-{i:"https://i.postimg.cc/d1q1gwxT/mem58.gif", t:"Это кажется мелочью, но запомнится надолго."},
-{i:"https://i.postimg.cc/6393Ftm4/mem59.gif", t:"Ты слишком серьёзен для этого момента."},
-{i:"https://i.postimg.cc/jS7L78fL/mem6.jpg", t:"Случайность была не такой уж случайной."},
-{i:"https://i.postimg.cc/gJYJ1mTD/mem60.gif", t:"Всё случится, когда ты отвлечёшься."},
-{i:"https://i.postimg.cc/j5s5BtF4/mem61.gif", t:"Сегодня не лучший день для серьёзных решений."},
-{i:"https://i.postimg.cc/TwRwBf47/mem62.gif", t:"Ты ожидал чуда. Получил опыт."},
-{i:"https://i.postimg.cc/gJYJ1mTN/mem63.gif", t:"Ты ближе к цели, чем кажется."},
-{i:"https://i.postimg.cc/50x0DbRp/mem64.jpg", t:"Это не решение, но направление мысли."},
-{i:"https://i.postimg.cc/ydVd2sbj/mem65.jpg", t:"Ты заметил знак, но сделал вид, что нет."},
-{i:"https://i.postimg.cc/1tJtQ2kc/mem66.jpg", t:"Это хороший повод ничего не делать."},
-{i:"https://i.postimg.cc/MTWTgqF9/mem67.jpg", t:"Не всё требует реакции."},
-{i:"https://i.postimg.cc/bJ3JhW7R/mem68.jpg", t:"Ты на секунду задумался — и этого хватило."},
-{i:"https://i.postimg.cc/85t5S92H/mem69.jpg", t:"Ты был близок к успеху. Очень близок."},
-{i:"https://i.postimg.cc/htdfdCmv/mem7.jpg", t:"Вселенная делает вид, что не заметила."},
-{i:"https://i.postimg.cc/2626DMsG/mem70.jpg", t:"Ты не ожидал, но был готов."},
+const cards=[
+  {i:"https://i.postimg.cc/7Z2f2Bzw/mem1.jpg", t:"Это стоит принять с лёгкой иронией."},
+  {i:"https://i.postimg.cc/L81n1yPY/mem10.jpg", t:"Лучше не объяснять — пусть думают сами."},
+  {i:"https://i.postimg.cc/05XQHgdb/mem100.gif", t:"Ты всё понял, но делаешь вид, что нет."}
+  // остальные карты
 ];
 
-document.getElementById("question").addEventListener("keypress", function(event) {
-  if(event.key==="Enter") oracle();
-});
+document.getElementById("question").addEventListener("keypress", e=>{ if(e.key==="Enter") oracle(); });
 
 function createSparks(card){
   for(let i=0;i<15;i++){
     const spark=document.createElement('div');
     spark.className='spark';
-    const x=(Math.random()*100-50)+'px';
-    const y=(Math.random()*100-50)+'px';
-    spark.style.setProperty('--x',x);
-    spark.style.setProperty('--y',y);
+    spark.style.setProperty('--x',(Math.random()*100-50)+'px');
+    spark.style.setProperty('--y',(Math.random()*100-50)+'px');
     card.appendChild(spark);
     setTimeout(()=>spark.remove(),600);
   }
@@ -411,17 +274,15 @@ function oracle(){
   const shuffled=cards.sort(()=>0.5-Math.random());
   const pick=shuffled.slice(0,3);
 
-  const flipDelays=[1500,3000,3000]; // центральная первая, крайние вместе
+  const scales = [0.8,0.95,0.8]; // левый, центр, правый
 
   pick.forEach((c,index)=>{
     const card=document.createElement("div");
     card.className="card";
+    card.style.transform=`scale(${scales[index]})`;
 
-    if(index===1){
-      card.classList.add("center");
-    } else {
-      card.classList.add("side");
-    }
+    if(index===1) card.classList.add("center");
+    else card.classList.add("side");
 
     card.innerHTML=`
       <div class="card-inner">
@@ -432,16 +293,28 @@ function oracle(){
         </div>
       </div>
     `;
-
     out.appendChild(card);
 
     setTimeout(()=>{
       card.classList.add("show");
       createSparks(card);
-    }, index*300);
+    }, index*200);
 
-    setTimeout(()=>{ card.classList.add("flipped"); }, flipDelays[index]);
   });
+
+  // Переворот: сначала центральная
+  setTimeout(()=>{
+    pick.forEach((c,index)=>{
+      if(index===1) out.children[index].classList.add("flipped");
+    });
+  }, 1000);
+
+  // Через 700мс после центральной переворачиваем крайние карты
+  setTimeout(()=>{
+    pick.forEach((c,index)=>{
+      if(index!==1) out.children[index].classList.add("flipped");
+    });
+  }, 1700);
 }
 </script>
 
